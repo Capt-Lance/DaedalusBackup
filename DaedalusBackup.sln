@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaedalusBackup.API", "DaedalusBackup.API\DaedalusBackup.API.csproj", "{5070C5F3-068C-4897-B075-D7B88FE55869}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{99763D14-880E-47D6-833F-FD82EC72DB2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99763D14-880E-47D6-833F-FD82EC72DB2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99763D14-880E-47D6-833F-FD82EC72DB2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5070C5F3-068C-4897-B075-D7B88FE55869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5070C5F3-068C-4897-B075-D7B88FE55869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5070C5F3-068C-4897-B075-D7B88FE55869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5070C5F3-068C-4897-B075-D7B88FE55869}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 		{A41360F2-5E34-4ECE-8120-EAE87FADD66E} = {078D57F9-ADB5-41EE-A4EC-0A66001A6C60}
 		{30BFACBF-1C9C-426C-ABD0-AE6FFC2A9CC2} = {078D57F9-ADB5-41EE-A4EC-0A66001A6C60}
 		{99763D14-880E-47D6-833F-FD82EC72DB2D} = {078D57F9-ADB5-41EE-A4EC-0A66001A6C60}
+		{5070C5F3-068C-4897-B075-D7B88FE55869} = {85954F80-C0F3-4C25-890D-70A976D75E83}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9DC7EC97-7ED9-4C32-8710-79D5DE066BFA}
