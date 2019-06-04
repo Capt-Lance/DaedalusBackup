@@ -18,7 +18,7 @@ namespace DaedalusBackup.API.Controllers
         {
             _hyperVRepo = hyperVRepo;
         }
-        [HttpGet("virtualmachaines")]
+        [HttpGet("virtualmachines")]
         public IActionResult GetVMs()
         {
             IEnumerable<VirtualMachine> vms = _hyperVRepo.GetAll();

@@ -22,5 +22,10 @@ namespace BackupManagement.UnitTests.Shared.Repositories
             return new MemoryStream(streams[vd.Location]);
 
         }
+
+        public Stream Open(Increment increment)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

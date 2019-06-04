@@ -9,5 +9,10 @@ namespace BackupManagement.Infrastructure.Factories
         {
             return File.Open(vd.Location, FileMode.Open, FileAccess.Read);
         }
+
+        public Stream Open(Increment increment)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

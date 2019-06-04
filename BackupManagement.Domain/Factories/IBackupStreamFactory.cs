@@ -5,6 +5,7 @@ namespace BackupManagement.Domain
     public interface IBackupStreamFactory
     {
         Stream Open(VirtualDisk vd);
+        Stream Open(Increment increment);
 
     }
 }
