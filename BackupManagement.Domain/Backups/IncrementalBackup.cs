@@ -11,14 +11,27 @@ namespace BackupManagement.Domain
     {
         public DateTime DateModified {get; private set; }
 
-        public IEnumerable<Increment> OriginalIncrements { get; private set; }
+        public Increment OriginalIncrement { get; private set; }
         public IEnumerable<Increment> Increments { get; private set; }
 
         private IncrementalBackup(DateTime dateModified)
         {
             DateModified = dateModified;
-            OriginalIncrements = new List<Increment>();
             Increments = new List<Increment>();
+        }
+
+        private HashSet<string> GetChunkHashes()
+        {
+            HashSet<string> chunkHashesHashSet = new HashSet<string>();
+            if (OriginalIncrement != null)
+            {
+                chunkHashesHashSet.UnionWith(OriginalIncrement.GetChunkHashes());
+            }
+            foreach(Increment increment in Increments)
+            {
+                chunkHashesHashSet.UnionWith(increment.GetChunkHashes());
+            }
+            return chunkHashesHashSet;
         }
 
         public static async Task<IncrementalBackup> CreateFromStreamAsync(Stream readStream, IBackupStreamFactory streamFactory, int incrementSize)
@@ -26,7 +39,8 @@ namespace BackupManagement.Domain
             IncrementalBackup backup = new IncrementalBackup(DateTime.Now);
             //byte[] buffer = new byte[536870912];
             int chunk = 0;
-            Increment increment = await Increment.CreateNewAsync(readStream, streamFactory, incrementSize);
+            //HashSet<string> existingChunkHashes = GetChunkHashes()
+            backup.OriginalIncrement = await Increment.CreateNewAsync(readStream, streamFactory, incrementSize, new HashSet<string>());
  
             return backup;
         }

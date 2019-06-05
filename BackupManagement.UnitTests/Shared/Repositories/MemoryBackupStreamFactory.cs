@@ -7,25 +7,29 @@ namespace BackupManagement.UnitTests.Shared.Repositories
 {
     public class MemoryBackupStreamFactory : IBackupStreamFactory
     {
-        private Dictionary<string, byte[]> streams = new Dictionary<string, byte[]>();
+        private Dictionary<string, byte[]> data = new Dictionary<string, byte[]>();
 
         public Stream Open(VirtualDisk vd)
         {
-            if (!streams.ContainsKey(vd.Location))
+            if (!data.ContainsKey(vd.Location))
             {
                 byte[] newData = new byte[789];
                 Random rndm = new Random();
                 rndm.NextBytes(newData);
-                streams[vd.Location] = newData;
-                return new MemoryStream(streams[vd.Location]);
+                data[vd.Location] = newData;
+                return new MemoryStream(data[vd.Location]);
             }
-            return new MemoryStream(streams[vd.Location]);
+            return new MemoryStream(data[vd.Location]);
 
         }
 
-        public Stream Open(Increment increment)
+        public Stream Open(Chunk chunk)
         {
-            throw new NotImplementedException();
+            if (!data.ContainsKey(chunk.Hash))
+            {
+                data[chunk.Hash] = new byte[1073741824];
+            }
+            return new MemoryStream(data[chunk.Hash]);
         }
     }
 }

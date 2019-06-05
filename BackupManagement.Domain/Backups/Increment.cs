@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,15 @@ namespace BackupManagement.Domain
     public class Increment
     {
         public DateTime DateCreated { get; private set; }
+        public List<Chunk> Chunks { get; private set; }
 
-        public static async Task<Increment> CreateNewAsync(Stream readStream, IBackupStreamFactory streamFactory, int incrementSize)
+        private Increment()
+        {
+            DateCreated = DateTime.Now;
+            Chunks = new List<Chunk>();
+        }
+
+        public static async Task<Increment> CreateNewAsync(Stream readStream, IBackupStreamFactory streamFactory, int incrementSize, HashSet<string> existingChunkHashes)
         {
             byte[] buffer = new byte[incrementSize];
             int chunkIndex = 0;
@@ -28,11 +36,23 @@ namespace BackupManagement.Domain
                 byte[] hashBytes = sha.ComputeHash(buffer);
                 string hash = Convert.ToBase64String(hashBytes);
                 Chunk chunk = Chunk.CreateNew(chunkIndex, hash);
-                Stream targetStream = streamFactory.Open(increment);
-                await targetStream.WriteAsync(buffer);
+                increment.Chunks.Add(chunk);
+                if (!existingChunkHashes.Contains(chunk.Hash))
+                {
+                    Stream targetStream = streamFactory.Open(chunk);
+                    await targetStream.WriteAsync(buffer);
+                    targetStream.Close();
+                    existingChunkHashes.Add(chunk.Hash);
+                }
+
                 chunkIndex++;
             }
             return increment;
+        }
+
+        public IEnumerable<string> GetChunkHashes()
+        {
+            return Chunks.Select(x => x.Hash);
         }
     }
 }
