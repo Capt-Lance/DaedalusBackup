@@ -1,7 +1,8 @@
 @page "/fetchdata"
 @using DaedalusBackup.UI.Data
+@using DaedalusBackup.UI.Services
 @inject WeatherForecastService ForecastService
-
+@inject HyperVService hvService
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
@@ -35,11 +36,26 @@ else
     </table>
 }
 
+@if (vms == null)
+{
+    <p>Loading VMs ...</p>
+}
+else 
+{
+    @foreach (var vm in vms)
+    {
+        <p>@vm.Name</p>
+    }
+}
+
 @functions {
     WeatherForecast[] forecasts;
+    List<VirtualMachine> vms;
 
     protected override async Task OnInitAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        vms = await hvService.GetVMs();
+        Console.WriteLine("hello client");
     }
 }

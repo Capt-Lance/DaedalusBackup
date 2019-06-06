@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DaedalusBackup.UI.Data;
+using DaedalusBackup.UI.Services;
 
 namespace DaedalusBackup.UI
 {
@@ -21,6 +22,7 @@ namespace DaedalusBackup.UI
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<HyperVService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
