@@ -10,9 +10,10 @@ namespace BackupManagement.Domain
         public DateTime DateCreated { get; protected set; }
         public string Path { get; protected set; }
 
-        public Backup()
+        public Backup(DateTime dateCreated, string path)
         {
-            DateCreated = DateTime.Now;
+            DateCreated = dateCreated;
+            Path = path;
         }
     }
 }

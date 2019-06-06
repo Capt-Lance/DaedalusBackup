@@ -12,10 +12,13 @@ namespace BackupManagement.Domain
         public DateTime DateModified {get; private set; }
 
         public Increment OriginalIncrement { get; private set; }
-        public IEnumerable<Increment> Increments { get; private set; }
+        public List<Increment> Increments { get; private set; }
 
-        private IncrementalBackup(DateTime dateModified)
+        public int IncrementSize;
+
+        private IncrementalBackup(DateTime dateCreated, DateTime dateModified, string path, int incrementSize) : base(dateCreated, path)
         {
+            IncrementSize = incrementSize;
             DateModified = dateModified;
             Increments = new List<Increment>();
         }
@@ -34,15 +37,17 @@ namespace BackupManagement.Domain
             return chunkHashesHashSet;
         }
 
-        public static async Task<IncrementalBackup> CreateFromStreamAsync(Stream readStream, IBackupStreamFactory streamFactory, int incrementSize)
+        public static async Task<IncrementalBackup> CreateFromStreamAsync(Stream readStream, IBackupStreamFactory streamFactory, string path, int incrementSize)
         {
-            IncrementalBackup backup = new IncrementalBackup(DateTime.Now);
-            //byte[] buffer = new byte[536870912];
-            int chunk = 0;
-            //HashSet<string> existingChunkHashes = GetChunkHashes()
-            backup.OriginalIncrement = await Increment.CreateNewAsync(readStream, streamFactory, incrementSize, new HashSet<string>());
- 
+            IncrementalBackup backup = new IncrementalBackup(DateTime.Now, DateTime.Now, path, incrementSize);
+            backup.OriginalIncrement = await Increment.CreateNewAsync(readStream, streamFactory, path, incrementSize, new HashSet<string>());
             return backup;
+        }
+
+        public async Task Backup(Stream readStream, IBackupStreamFactory streamFactory)
+        {
+            Increment increment = await Increment.CreateNewAsync(readStream, streamFactory, Path, IncrementSize, GetChunkHashes());
+            Increments.Add(increment);
         }
     }
 }

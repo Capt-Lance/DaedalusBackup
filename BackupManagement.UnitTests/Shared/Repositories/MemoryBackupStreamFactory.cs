@@ -23,13 +23,18 @@ namespace BackupManagement.UnitTests.Shared.Repositories
 
         }
 
-        public Stream Open(Chunk chunk)
+        public Stream Open(Chunk chunk, string path)
         {
             if (!data.ContainsKey(chunk.Hash))
             {
                 data[chunk.Hash] = new byte[1073741824];
             }
             return new MemoryStream(data[chunk.Hash]);
+        }
+
+        public Stream Open(Backup backup)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace BackupManagement.Domain
             Chunks = new List<Chunk>();
         }
 
-        public static async Task<Increment> CreateNewAsync(Stream readStream, IBackupStreamFactory streamFactory, int incrementSize, HashSet<string> existingChunkHashes)
+        public static async Task<Increment> CreateNewAsync(Stream readStream, IBackupStreamFactory streamFactory, string path, int incrementSize, HashSet<string> existingChunkHashes)
         {
             byte[] buffer = new byte[incrementSize];
             int chunkIndex = 0;
@@ -39,7 +39,7 @@ namespace BackupManagement.Domain
                 increment.Chunks.Add(chunk);
                 if (!existingChunkHashes.Contains(chunk.Hash))
                 {
-                    Stream targetStream = streamFactory.Open(chunk);
+                    Stream targetStream = streamFactory.Open(chunk, path);
                     await targetStream.WriteAsync(buffer);
                     targetStream.Close();
                     existingChunkHashes.Add(chunk.Hash);

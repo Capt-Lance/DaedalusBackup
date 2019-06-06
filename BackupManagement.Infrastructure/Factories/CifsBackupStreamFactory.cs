@@ -10,7 +10,12 @@ namespace BackupManagement.Infrastructure.Factories
             return File.Open(vd.Location, FileMode.Open, FileAccess.Read);
         }
 
-        public Stream Open(Chunk chunk)
+        public Stream Open(Chunk chunk, string path)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Stream Open(Backup backup)
         {
             throw new System.NotImplementedException();
         }
