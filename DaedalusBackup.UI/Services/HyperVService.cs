@@ -12,17 +12,17 @@ namespace DaedalusBackup.UI.Services
     {
         private readonly HttpClient _httpClient;
 
-        // public VirtualMachineService(HttpClient httpClient)
-        // {
-        //     _httpClient = httpClient;
-        // }
+        public HyperVService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
 
         public async Task<List<VirtualMachine>> GetVMs()
         {
             Console.WriteLine("Hello world");
-            HttpClient httpClient = new HttpClient();
-            return await httpClient.GetJsonAsync<List<VirtualMachine>>("http://localhost:4000/api/hyperv/virtualmachines");
-            // return await _httpClient.GetJsonAsync<VirtualMachine>("http://localhost:4000/api/hyperv/virtualmachines");
+            //HttpClient httpClient = new HttpClient();
+            //return await httpClient.GetJsonAsync<List<VirtualMachine>>("http://localhost:4000/api/hyperv/virtualmachines");
+            return await _httpClient.GetJsonAsync<List<VirtualMachine>>("http://localhost:4000/api/hyperv/virtualmachines");
         }
     }
 }
