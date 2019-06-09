@@ -28,6 +28,10 @@ namespace DaedalusBackup.API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddTransient<HyperVVirtualMachineRepository>();
+            services.AddCors(o => o.AddPolicy("AllowAllCORs", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +47,7 @@ namespace DaedalusBackup.API
                 app.UseHsts();
             }
 
+            app.UseCors("AllowAllCORs");
             app.UseHttpsRedirection();
             app.UseMvc();
         }

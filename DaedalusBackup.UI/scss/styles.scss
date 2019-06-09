@@ -1,0 +1,42 @@
+﻿@import 'materialize-css/sass/materialize.scss';
+
+$theme-primary: #9c27b0 ;
+$theme-primary-dark: #6a0080;
+$theme-primary-light: #d05ce3;
+$text-on-primary: #ffffff;
+
+$theme-secondary: #ab47bc;
+$theme-secondary-dark: #790e8b;
+$theme-secondary-light: #df78ef;
+$text-on-secondary: #ffffff;
+
+
+body {
+}
+
+.primary {
+    background: $theme-primary;
+}
+
+.secondary {
+    background: $theme-secondary;
+}
+
+.primary-text {
+    color: $text-on-primary;
+}
+
+.secondary-text {
+    color: $text-on-secondary;
+}
+
+
+header, .main, footer {
+    padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+    header, .main, footer {
+        padding-left: 0;
+    }
+}

@@ -1,25 +1,33 @@
-@page "/fetchdata"
+@page "/hyperv"
 @using DaedalusBackup.UI.Data
 @using DaedalusBackup.UI.Services
 @inject HyperVService hvService
-<h1>Weather forecast</h1>
+
+<NavBar Title="Hyper V" />
+<h1>Hyper V</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (vms == null)
+@if (vms == null && !hasErrored)
 {
-    <p>Loading VMs ...</p>
+<p>Loading VMs ...</p>
 }
-else 
+else if (hasErrored)
 {
-    @foreach (var vm in vms)
+    <p>Error occurred</p>
+}
+else
+{
+@foreach (var vm in vms)
     {
-        <p>@vm.Name</p>
+<p>@vm.Name</p>
     }
 }
 
 @functions {
     List<VirtualMachine> vms;
+    bool hasErrored = false;
+
     protected override async Task OnInitAsync()
     {
         Console.WriteLine("hello client");
@@ -30,7 +38,8 @@ else
         }
         catch(Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine("error");
+            hasErrored = true;
         }
     }
 }

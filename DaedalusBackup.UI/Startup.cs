@@ -11,6 +11,7 @@ namespace DaedalusBackup.UI
         {
             services.AddSingleton<HttpClient>();
             services.AddSingleton<HyperVService>();
+            //services.AddSingleton<NavigationService>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)
