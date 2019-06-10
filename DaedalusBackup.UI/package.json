@@ -11,6 +11,7 @@
     "materialize-css": "^1.0.0"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0",
     "gulp": "^4.0.2",
     "gulp-sass": "^4.0.2"
   }
