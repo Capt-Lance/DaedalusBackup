@@ -29,29 +29,34 @@ namespace BackupManagement.Domain
             return vm;
         }
 
-        public async Task BackupVirtualDiskAsync(VirtualDisk vd, IBackupStreamFactory streamFactory, Stream targetStream)
-        {
-            Stream readStream = streamFactory.Open(vd);
-            int bufferSize = 512;
-            byte[] buffer = new byte[bufferSize];
-            while (readStream.Position < readStream.Length)
-            {
-                long remainingBytes = readStream.Length - readStream.Position;
-                if (remainingBytes < bufferSize)
-                {
-                    buffer = new byte[remainingBytes];
-                }
-                await readStream.ReadAsync(buffer);
-                await targetStream.WriteAsync(buffer);
-            }
-            readStream.Close();
-            targetStream.Close();
-        }
+        //public async Task BackupVirtualDiskAsync(VirtualDisk vd, IBackupStreamFactory streamFactory, Stream targetStream)
+        //{
+        //    Stream readStream = streamFactory.Open(vd);
+        //    int bufferSize = 512;
+        //    byte[] buffer = new byte[bufferSize];
+        //    while (readStream.Position < readStream.Length)
+        //    {
+        //        long remainingBytes = readStream.Length - readStream.Position;
+        //        if (remainingBytes < bufferSize)
+        //        {
+        //            buffer = new byte[remainingBytes];
+        //        }
+        //        await readStream.ReadAsync(buffer);
+        //        await targetStream.WriteAsync(buffer);
+        //    }
+        //    readStream.Close();
+        //    targetStream.Close();
+        //}
 
-        public async Task BackupVirtualDiskIncrementallyAsync(VirtualDisk vd, IBackupStreamFactory streamFactory, Stream targetStream)
+        public async Task FullBackup()
         {
             throw new NotImplementedException();
         }
+
+        //public async Task BackupVirtualDiskIncrementallyAsync(VirtualDisk vd, IBackupStreamFactory streamFactory, Stream targetStream)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public string GenerateBackupFileName()
         {

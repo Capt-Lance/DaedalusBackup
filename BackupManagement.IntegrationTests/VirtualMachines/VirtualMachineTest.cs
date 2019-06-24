@@ -10,22 +10,23 @@ namespace BackupManagement.IntegrationTests.VirtualMachines
 {
     public class VirtualMachineTest
     {
-        [Fact]
-        public async Task CopyOPNSenseVHDs()
-        {
-            string vmName = "OPNSense";
-            string locationToBackup = "C:\\Test";
-            IVirtualMachineRepository vmRepo = new HyperVVirtualMachineRepository();
-            VirtualMachine vm = vmRepo.Get(vmName);
-            foreach(VirtualDisk vd in vm.VirtualDisks)
-            {
-                string fileName = vd.GenerateBackupDiskName();
-                string filePath = $"{locationToBackup}\\{fileName}";
-                FileStream fs = File.Open(filePath, FileMode.Create, FileAccess.Write);
-                IBackupStreamFactory backupFactory = new CifsBackupStreamFactory();
-                await vm.BackupVirtualDiskAsync(vd, backupFactory, fs);
-            }
-        }
+        // Redoing who controls backups
+        //[Fact]
+        //public async Task CopyOPNSenseVHDs()
+        //{
+        //    string vmName = "OPNSense";
+        //    string locationToBackup = "C:\\Test";
+        //    IVirtualMachineRepository vmRepo = new HyperVVirtualMachineRepository();
+        //    VirtualMachine vm = vmRepo.Get(vmName);
+        //    foreach(VirtualDisk vd in vm.VirtualDisks)
+        //    {
+        //        string fileName = vd.GenerateBackupDiskName();
+        //        string filePath = $"{locationToBackup}\\{fileName}";
+        //        FileStream fs = File.Open(filePath, FileMode.Create, FileAccess.Write);
+        //        IBackupStreamFactory backupFactory = new CifsBackupStreamFactory();
+        //        await vm.BackupVirtualDiskAsync(vd, backupFactory, fs);
+        //    }
+        //}
 
         // 16GB file takes 9min to run. 
         //[Fact]

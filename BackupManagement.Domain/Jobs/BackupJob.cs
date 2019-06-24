@@ -5,16 +5,18 @@ using System.Threading.Tasks;
 
 namespace BackupManagement.Domain
 {
-    public abstract class Job
+    public abstract class BackupJob<T>: IJob where T: Backup
     {
         public int Id { get; private set; }
         public DateTime DateCreated { get; protected set; }
         public DateTime DateModified { get; protected set; }
+        public List<T> Backups { get; protected set; }
 
-        protected Job(DateTime dateCreated, DateTime dateModified)
+        protected BackupJob(DateTime dateCreated, DateTime dateModified)
         {
             DateCreated = dateCreated;
             DateModified = dateModified;
+            Backups = new List<T>();
         }
 
         public abstract Task Run();

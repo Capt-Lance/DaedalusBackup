@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace BackupManagement.Domain
 {
-    public class FullBackupJob: Job
+    public class FullBackupJob:  BackupJob<FullBackup>
     {
-        public FullBackup Backup { get; private set; }
+
+        public List<VirtualMachine> VirtualMachines { get; private set; }
 
         private FullBackupJob(DateTime dateCreated, DateTime dateModified, FullBackup backup): base(dateCreated, dateModified)
         {
-            Backup = backup;
         }
 
         public static FullBackupJob CreateNew()
@@ -20,9 +20,17 @@ namespace BackupManagement.Domain
             return job;
         }
 
-        public override Task Run()
+        public override async Task Run()
         {
-            throw new NotImplementedException();
+            Task[] tasks = new Task[VirtualMachines.Count];
+            int i = 0;
+            foreach(VirtualMachine vm in VirtualMachines)
+            {
+                Task task = vm.FullBackup();
+                tasks[0] = task;
+                i++;
+            }
+            await Task.WhenAll(tasks);
         }
     }
 }
