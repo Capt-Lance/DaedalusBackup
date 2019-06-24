@@ -14,7 +14,7 @@ namespace BackupManagement.Domain
         {
         }
 
-        public static FullBackupJob CreateNew()
+        public static FullBackupJob CreateNew(List<VirtualMachine> vms, BackupStreamType backupType, string path)
         {
             FullBackupJob job = new FullBackupJob(DateTime.UtcNow, DateTime.UtcNow, null);
             return job;
