@@ -5,7 +5,7 @@ using System.IO;
 
 namespace BackupManagement.UnitTests.Shared.Repositories
 {
-    public class MemoryBackupStreamFactory : IBackupStreamFactory
+    public class MemoryBackupLocationFactory : IBackupLocationFactory
     {
         private Dictionary<string, byte[]> data = new Dictionary<string, byte[]>();
 

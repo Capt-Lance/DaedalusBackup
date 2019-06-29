@@ -17,7 +17,7 @@ namespace BackupManagement.UnitTests.Backups
             Random rndm = new Random();
             rndm.NextBytes(newData);
             var readStream = new MemoryStream(newData);
-            var streamFactory = new MemoryBackupStreamFactory();
+            var streamFactory = new MemoryBackupLocationFactory();
             int incrementSize = 536870912; //512 MB
             string path = "";
             IncrementalBackup backup = await IncrementalBackup.CreateFromStreamAsync(readStream, streamFactory, path, incrementSize);
@@ -32,7 +32,7 @@ namespace BackupManagement.UnitTests.Backups
             Random rndm = new Random();
             rndm.NextBytes(newData);
             var readStream = new MemoryStream(newData);
-            var streamFactory = new MemoryBackupStreamFactory();
+            var streamFactory = new MemoryBackupLocationFactory();
             int incrementSize = 536870912; //512 MB
             string path = "";
             IncrementalBackup backup = await IncrementalBackup.CreateFromStreamAsync(readStream, streamFactory, path, incrementSize);

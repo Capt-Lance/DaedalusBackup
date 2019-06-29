@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BackupManagement.Domain
 {
-    public class CIFSBackupStreamFactory : IBackupStreamFactory
+    public class CIFSBackupLocationFactory : IBackupLocationFactory
     {
         public Stream Open(VirtualDisk vd)
         {

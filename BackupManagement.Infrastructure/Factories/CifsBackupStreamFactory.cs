@@ -3,7 +3,7 @@ using System.IO;
 
 namespace BackupManagement.Infrastructure.Factories
 {
-    public class CifsBackupStreamFactory : IBackupStreamFactory
+    public class CifsBackupStreamFactory : IBackupLocationFactory
     {
         public Stream Open(VirtualDisk vd)
         {

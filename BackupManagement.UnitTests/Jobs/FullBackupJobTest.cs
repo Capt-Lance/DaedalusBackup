@@ -13,7 +13,13 @@ namespace BackupManagement.UnitTests.Jobs
         public async Task FullBackupCreated()
         {
             List<VirtualMachine> vms = new List<VirtualMachine>();
-            FullBackupJob backupJob = FullBackupJob.CreateNew(vms, BackupStreamType.CIFS, "testlocation");
+            FullBackupJob backupJob = FullBackupJob.CreateNew(vms, BackupLocationType.CIFS, "testlocation");
+        }
+
+        [Fact]
+        public async Task FullBackupNotCorrupt()
+        {
+            throw new NotImplementedException();
         }
     }
 }

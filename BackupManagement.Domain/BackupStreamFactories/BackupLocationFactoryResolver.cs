@@ -6,13 +6,13 @@ namespace BackupManagement.Domain
 {
     public class BackupStreamFactoryResolver
     {
-        public static IBackupStreamFactory Resolve(BackupStreamType backupType)
+        public static IBackupLocationFactory Resolve(BackupLocationType backupType)
         {
             switch (backupType)
             {
-                case BackupStreamType.CIFS:
+                case BackupLocationType.CIFS:
                     {
-                        return new CIFSBackupStreamFactory();
+                        return new CIFSBackupLocationFactory();
                     }
                 default:
                     {

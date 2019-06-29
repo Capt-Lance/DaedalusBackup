@@ -19,6 +19,10 @@ namespace BackupManagement.Domain
             Backups = new List<T>();
         }
 
+        // TODO:
+        // Might not make this abstract as each job type might need it's own signature.
+        // Need to think about this more
+        //public abstract BackupJob CreateNew()
         public abstract Task Run();
 
     }

@@ -2,7 +2,7 @@
 
 namespace BackupManagement.Domain
 {
-    public interface IBackupStreamFactory
+    public interface IBackupLocationFactory
     {
         Stream Open(VirtualDisk vd);
         Stream Open(Backup backup);

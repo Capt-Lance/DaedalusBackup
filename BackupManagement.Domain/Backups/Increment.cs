@@ -19,7 +19,7 @@ namespace BackupManagement.Domain
             Chunks = new List<Chunk>();
         }
 
-        public static async Task<Increment> CreateNewAsync(Stream readStream, IBackupStreamFactory streamFactory, string path, int incrementSize, HashSet<string> existingChunkHashes)
+        public static async Task<Increment> CreateNewAsync(Stream readStream, IBackupLocationFactory streamFactory, string path, int incrementSize, HashSet<string> existingChunkHashes)
         {
             byte[] buffer = new byte[incrementSize];
             int chunkIndex = 0;

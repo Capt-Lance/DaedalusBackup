@@ -37,14 +37,14 @@ namespace BackupManagement.Domain
             return chunkHashesHashSet;
         }
 
-        public static async Task<IncrementalBackup> CreateFromStreamAsync(Stream readStream, IBackupStreamFactory streamFactory, string path, int incrementSize)
+        public static async Task<IncrementalBackup> CreateFromStreamAsync(Stream readStream, IBackupLocationFactory streamFactory, string path, int incrementSize)
         {
             IncrementalBackup backup = new IncrementalBackup(DateTime.Now, DateTime.Now, path, incrementSize);
             backup.OriginalIncrement = await Increment.CreateNewAsync(readStream, streamFactory, path, incrementSize, new HashSet<string>());
             return backup;
         }
 
-        public async Task Backup(Stream readStream, IBackupStreamFactory streamFactory)
+        public async Task Backup(Stream readStream, IBackupLocationFactory streamFactory)
         {
             Increment increment = await Increment.CreateNewAsync(readStream, streamFactory, Path, IncrementSize, GetChunkHashes());
             Increments.Add(increment);
