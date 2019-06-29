@@ -7,8 +7,19 @@ namespace BackupManagement.Domain.Jobs
 {
     public class IncrementalBackupJob : BackupJob<IncrementalBackup>
     {
-        private IncrementalBackupJob(DateTime dateCreated, DateTime dateModified, FullBackup backup) : base(dateCreated, dateModified)
+        private IncrementalBackupJob(
+            DateTime dateCreated,
+            DateTime dateModified,
+            BackupLocationType targetLocationType,
+            string targetLocation
+            ) : base(dateCreated, dateModified, targetLocationType, targetLocation)
         {
+        }
+
+        public IncrementalBackupJob CreateNew(List<VirtualMachine> vms, BackupLocationType backupType, string path)
+        {
+            IncrementalBackupJob job = new IncrementalBackupJob(DateTime.UtcNow, DateTime.UtcNow, backupType, path);
+            return job;
         }
         public override Task Run()
         {

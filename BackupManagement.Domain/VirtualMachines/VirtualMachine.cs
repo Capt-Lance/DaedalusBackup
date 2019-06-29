@@ -53,6 +53,11 @@ namespace BackupManagement.Domain
             throw new NotImplementedException();
         }
 
+        public async Task FullBackup(IBackupLocationFactory sourceLocation, IBackupLocationFactory targetLocationFactory)
+        {
+            throw new NotImplementedException();
+        }
+
         //public async Task BackupVirtualDiskIncrementallyAsync(VirtualDisk vd, IBackupStreamFactory streamFactory, Stream targetStream)
         //{
         //    throw new NotImplementedException();

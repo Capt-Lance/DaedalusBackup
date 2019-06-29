@@ -8,11 +8,17 @@ namespace BackupManagement.Domain
     public abstract class BackupJob<T>: IJob where T: Backup
     {
         public int Id { get; private set; }
+        public List<T> Backups { get; protected set; }
         public DateTime DateCreated { get; protected set; }
         public DateTime DateModified { get; protected set; }
-        public List<T> Backups { get; protected set; }
+        public BackupLocationType TargetLocationType { get; protected set; }
+        public string TargetLocation { get; protected set; }
 
-        protected BackupJob(DateTime dateCreated, DateTime dateModified)
+        protected BackupJob(
+            DateTime dateCreated, 
+            DateTime dateModified, 
+            BackupLocationType targetLocationType, 
+            string targetLocation)
         {
             DateCreated = dateCreated;
             DateModified = dateModified;
