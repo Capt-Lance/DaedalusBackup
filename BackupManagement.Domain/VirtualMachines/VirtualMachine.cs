@@ -23,7 +23,7 @@ namespace BackupManagement.Domain
             }
         }
 
-        public static VirtualMachine New(Guid id, string name, List<string> vhdPaths)
+        public static VirtualMachine CreateNew(Guid id, string name, List<string> vhdPaths)
         {
             VirtualMachine vm = new VirtualMachine(id, name, vhdPaths);
             return vm;

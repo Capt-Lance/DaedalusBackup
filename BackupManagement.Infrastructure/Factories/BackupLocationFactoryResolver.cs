@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using BackupManagement.Domain;
+using System;
 
-namespace BackupManagement.Domain
+namespace BackupManagement.Infrastructure.Factories
 {
-    public class BackupStreamFactoryResolver
+    public class BackupLocationFactoryResolver
     {
-        public static IBackupLocationFactory Resolve(BackupLocationType backupType)
+        public IBackupLocationFactory Resolve(BackupLocationType backupType)
         {
             switch (backupType)
             {

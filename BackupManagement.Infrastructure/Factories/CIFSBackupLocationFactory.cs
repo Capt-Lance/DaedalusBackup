@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BackupManagement.Domain;
+using System;
 using System.IO;
-using System.Text;
 
-namespace BackupManagement.Domain
+namespace BackupManagement.Infrastructure.Factories
 {
     public class CIFSBackupLocationFactory : IBackupLocationFactory
     {
