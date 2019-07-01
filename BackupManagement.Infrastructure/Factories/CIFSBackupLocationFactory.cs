@@ -23,5 +23,11 @@ namespace BackupManagement.Infrastructure.Factories
             FileStream fs = new FileStream(location, FileMode.OpenOrCreate);
             return fs;
         }
+
+        public Stream Open(string path)
+        {
+            FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
+            return fs;
+        }
     }
 }

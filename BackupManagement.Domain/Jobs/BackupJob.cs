@@ -13,23 +13,28 @@ namespace BackupManagement.Domain
         public DateTime DateModified { get; protected set; }
         public BackupLocationType TargetLocationType { get; protected set; }
         public string TargetLocation { get; protected set; }
+        public List<VirtualMachine> VirtualMachines { get; private set; }
 
         protected BackupJob(
             DateTime dateCreated, 
             DateTime dateModified, 
             BackupLocationType targetLocationType, 
-            string targetLocation)
+            string targetLocation,
+            List<VirtualMachine> vms)
         {
             DateCreated = dateCreated;
             DateModified = dateModified;
             Backups = new List<T>();
+            TargetLocationType = targetLocationType;
+            TargetLocation = targetLocation;
+            VirtualMachines = vms ?? new List<VirtualMachine>();
         }
 
         // TODO:
         // Might not make this abstract as each job type might need it's own signature.
         // Need to think about this more
         //public abstract BackupJob CreateNew()
-        public abstract Task Run();
+        public abstract Task Run(IBackupLocationFactoryResolver backupLocationFactoryResolver);
 
     }
 }

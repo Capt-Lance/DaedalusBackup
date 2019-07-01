@@ -48,12 +48,23 @@ namespace BackupManagement.Domain
         //    targetStream.Close();
         //}
 
-        public async Task FullBackup()
+        //public async Task FullBackup()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        /// <summary>
+        /// Backup the current virtual machine to the specified locaiton
+        /// </summary>
+        /// <param name="sourceLocation"></param>
+        /// <param name="targetLocationFactory"></param>
+        /// <returns></returns>
+        public async Task<FullBackup> FullBackup(IBackupLocationFactoryResolver factoryResolver, BackupLocationType targetLocationType)
         {
-            throw new NotImplementedException();
+            return await FullBackup(factoryResolver, BackupLocationType.CIFS, targetLocationType);
         }
 
-        public async Task FullBackup(IBackupLocationFactory sourceLocation, IBackupLocationFactory targetLocationFactory)
+        public async Task<FullBackup> FullBackup(IBackupLocationFactoryResolver factoryResolver, BackupLocationType soruceLocationType, BackupLocationType targetLocationType)
         {
             throw new NotImplementedException();
         }

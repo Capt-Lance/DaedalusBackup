@@ -21,9 +21,14 @@ namespace BackupManagement.Domain
         /// </summary>
         public string Location {
             get {
-                return Path + "/" + Name + "." + Extension;
+                return $"{Path}/{Name}.{Extension}";
             }
         }
+
+        public string FileName { get
+            {
+                return $"{Name}.{Extension}";
+            } }
 
         private VirtualDisk(string location)
         {

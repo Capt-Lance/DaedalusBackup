@@ -36,5 +36,14 @@ namespace BackupManagement.UnitTests.Shared.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Stream Open(string path)
+        {
+            if (!data.ContainsKey(path))
+            {
+                data[path] = new byte[1073741824];
+            }
+            return new MemoryStream(data[path]);
+        }
     }
 }
