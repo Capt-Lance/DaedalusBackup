@@ -11,5 +11,10 @@ pipeline {
         sh 'dotnet test BackupManagement.UnitTests'
       }
     }
+    stage('Cleanup') {
+      steps {
+        cleanWs(cleanWhenSuccess: true)
+      }
+    }
   }
 }
