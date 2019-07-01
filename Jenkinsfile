@@ -3,12 +3,12 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        powershell 'dotnet publish DaedalusBackup.API'
+        sh 'dotnet publish DaedalusBackup.API'
       }
     }
     stage('Test') {
       steps {
-        powershell 'dotnet test BackupManagement.UnitTests'
+        sh 'dotnet test BackupManagement.UnitTests'
       }
     }
   }
