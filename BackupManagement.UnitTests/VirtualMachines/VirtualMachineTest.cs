@@ -1,6 +1,7 @@
 ﻿using BackupManagement.Domain;
 using BackupManagement.UnitTests.Shared.Repositories;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,37 +12,24 @@ namespace BackupManagement.UnitTest.VirtualMachines
     [Collection("Unit Tests")]
     public class VirtualMachineTest
     {
-        //[Fact]
-        //public async Task BackupVirtualMachineWithoutCorruption()
-        //{
-        //    //VirtualDiskMemoryRepository vdRepo = new VirtualDiskMemoryRepository();
-        //    VirtualMachineMemoryRepository vmRepo = new VirtualMachineMemoryRepository();
-        //    var vms = vmRepo.GetAll().ToList();
-        //    var vm = vms[0];
-        //    var vd = vm.VirtualDisks[0];
-        //    //var sourceStream = vdRepo.GetVirtualDiskStream(vd);
-        //    IBackupStreamFactory streamFactory = new MemoryBackupStreamFactory();
-        //    Stream originialStream = streamFactory.Open(vd);
-        //    byte[] targetData = new byte[originialStream.Length];
-        //    MemoryStream targetStream = new MemoryStream(targetData);
-        //    await vm.BackupVirtualDiskAsync(vd, streamFactory, targetStream);
+        [Fact]
+        public async Task BackupPathCorrect()
+        {
+            // Setup
+            List<string> vhdPaths = new List<string> { "mypath/disk1.vhd" };
+            Guid vmId = Guid.NewGuid();
+            string testVmName = "test1";
+            VirtualMachine vm = VirtualMachine.FromExisting(vmId, testVmName, vhdPaths);
+            IBackupLocationFactoryResolver resolver = new MemoryBackupLocationFactoryResolver();
+            string backupLocation = "newBackupLocation";
 
-        //    Stream targetComparisonStream = new MemoryStream(targetData);
-        //    //sourceStream.Position = 0;
-        //    //targetStream.Position = 0;
-        //    bool areSame = originialStream.Length == targetComparisonStream.Length;
-        //    while((originialStream.Position < originialStream.Length) && (targetComparisonStream.Position < targetComparisonStream.Length) && areSame)
-        //    {
-        //        byte[] sourceByte = new byte[1];
-        //        byte[] targetByte = new byte[1];
-        //        originialStream.Read(sourceByte);
-        //        targetComparisonStream.Read(targetByte);
-        //        areSame = sourceByte.SequenceEqual(targetByte) && areSame;
+            // Run
+            FullBackup backup = await vm.CreateFullBackupAsync(resolver, BackupLocationType.CIFS, backupLocation);
+            //FullBackup backup = await FullBackup.CreateNewAsync(vm, resolver, BackupLocationType.CIFS, backupLocation);
 
-        //    }
-        //    Assert.True(areSame, "Data is not the same");
-            
-
-        //}
+            // Test
+            string expectedPath = $"{backupLocation}/{vm.Name}";
+            Assert.True(backup.Path == expectedPath, "Backup.Path does not equal the expected path");
+        }
     }
 }

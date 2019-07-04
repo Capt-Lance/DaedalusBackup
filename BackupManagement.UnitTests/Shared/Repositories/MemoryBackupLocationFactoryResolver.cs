@@ -10,7 +10,11 @@ namespace BackupManagement.UnitTests.Shared.Repositories
         private MemoryBackupLocationFactory memoryFactory;
         public IBackupLocationFactory Resolve(BackupLocationType backupType)
         {
-            return memoryFactory ?? new MemoryBackupLocationFactory();
+            if (memoryFactory == null)
+            {
+                memoryFactory = new MemoryBackupLocationFactory();
+            }
+            return memoryFactory;
         }
     }
 }

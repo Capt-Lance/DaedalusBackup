@@ -33,7 +33,7 @@ namespace BackupManagement.Infrastructure.HyperV.Repositories
             ObjectQuery storageQuery = new ObjectQuery("SELECT * FROM Msvm_");
             string name = wm["ElementName"].ToString();
             List<string> vhdPaths = GetVhdPaths(wm);
-            VirtualMachine vm = VirtualMachine.CreateNew(id, name, vhdPaths);
+            VirtualMachine vm = VirtualMachine.FromExisting(id, name, vhdPaths);
             return vm;
         }
 

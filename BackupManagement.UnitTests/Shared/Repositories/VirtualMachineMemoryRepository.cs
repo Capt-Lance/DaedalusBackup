@@ -7,9 +7,9 @@ namespace BackupManagement.UnitTests.Shared.Repositories
     public class VirtualMachineMemoryRepository : IVirtualMachineRepository
     {
         private List<VirtualMachine> vms = new List<VirtualMachine>() {
-                VirtualMachine.CreateNew(Guid.Parse("36f32421-2d18-4545-9466-6f86d62f53f7"), "test1", new List<string>(){"test1/test1.vhd" }),
-                VirtualMachine.CreateNew(Guid.Parse("d0787607-309e-4ecc-85d5-4e58093f2b27"), "test2", new List<string>(){"test2/test2.vhd" }),
-                VirtualMachine.CreateNew(Guid.Parse("36f32421-2d18-4545-9466-6f86d62f53f7"), "test3", new List<string>(){"test3/test3.vhd" }),
+                VirtualMachine.FromExisting(Guid.Parse("36f32421-2d18-4545-9466-6f86d62f53f7"), "test1", new List<string>(){"test1/test1.vhd" }),
+                VirtualMachine.FromExisting(Guid.Parse("d0787607-309e-4ecc-85d5-4e58093f2b27"), "test2", new List<string>(){"test2/test2.vhd" }),
+                VirtualMachine.FromExisting(Guid.Parse("36f32421-2d18-4545-9466-6f86d62f53f7"), "test3", new List<string>(){"test3/test3.vhd" }),
             };
         public VirtualMachine Get(string name)
         {

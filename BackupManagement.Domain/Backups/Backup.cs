@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BackupManagement.Domain
 {
@@ -15,5 +13,6 @@ namespace BackupManagement.Domain
             DateCreated = dateCreated;
             Path = path;
         }
+
     }
 }

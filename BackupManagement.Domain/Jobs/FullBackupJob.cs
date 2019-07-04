@@ -21,11 +21,6 @@ namespace BackupManagement.Domain
 
         }
 
-        private async Task BackupVirtualMachine(VirtualMachine vm)
-        {
-            throw new NotImplementedException();
-        }
-
         public static FullBackupJob CreateNew(List<VirtualMachine> vms, BackupLocationType backupType, string path)
         {
             FullBackupJob job = new FullBackupJob(DateTime.UtcNow, DateTime.UtcNow, backupType, path, vms);
@@ -34,16 +29,20 @@ namespace BackupManagement.Domain
 
         public override async Task Run(IBackupLocationFactoryResolver backupLocationFactoryResolver)
         {
-            Task[] tasks = new Task[VirtualMachines.Count];
+            Task<FullBackup>[] tasks = new Task<FullBackup>[VirtualMachines.Count];
             int i = 0;
             string subdirectory = $"{TargetLocation}/{DateHelper.FileUTCNow()}";
             foreach(VirtualMachine vm in VirtualMachines)
             {
-                Task task = BackupVirtualMachine(vm);//vm.FullBackup(backupLocationFactoryResolver, TargetLocationType);
+                Task<FullBackup> task = vm.CreateFullBackupAsync(backupLocationFactoryResolver, TargetLocationType, subdirectory);
                 tasks[0] = task;
                 i++;
             }
             await Task.WhenAll(tasks);
+            foreach (Task<FullBackup> task in tasks)
+            {
+                Backups.Add(task.Result);
+            }
         }
     }
 }

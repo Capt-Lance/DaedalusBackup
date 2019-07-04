@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
+
 
 namespace BackupManagement.Domain
 {
     public class VirtualMachine
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
 
-        public List<VirtualDisk> VirtualDisks { get; set; }
+        public List<VirtualDisk> VirtualDisks { get; private set; }
+
+        public BackupLocationType SourceLocationType { get {
+                return BackupLocationType.CIFS;
+        } }
 
         private VirtualMachine(Guid id, string name, List<string> vhdPaths)
         {
@@ -23,50 +27,30 @@ namespace BackupManagement.Domain
             }
         }
 
-        public static VirtualMachine CreateNew(Guid id, string name, List<string> vhdPaths)
+        public static VirtualMachine FromExisting(Guid id, string name, List<string> vhdPaths)
         {
             VirtualMachine vm = new VirtualMachine(id, name, vhdPaths);
             return vm;
         }
 
-        //public async Task BackupVirtualDiskAsync(VirtualDisk vd, IBackupStreamFactory streamFactory, Stream targetStream)
-        //{
-        //    Stream readStream = streamFactory.Open(vd);
-        //    int bufferSize = 512;
-        //    byte[] buffer = new byte[bufferSize];
-        //    while (readStream.Position < readStream.Length)
-        //    {
-        //        long remainingBytes = readStream.Length - readStream.Position;
-        //        if (remainingBytes < bufferSize)
-        //        {
-        //            buffer = new byte[remainingBytes];
-        //        }
-        //        await readStream.ReadAsync(buffer);
-        //        await targetStream.WriteAsync(buffer);
-        //    }
-        //    readStream.Close();
-        //    targetStream.Close();
-        //}
 
-        //public async Task FullBackup()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
+       
         /// <summary>
-        /// Backup the current virtual machine to the specified locaiton
+        /// Backup the virtual machine to the specified directory
         /// </summary>
-        /// <param name="sourceLocation"></param>
-        /// <param name="targetLocationFactory"></param>
+        /// <param name="factoryResolver"></param>
+        /// <param name="backupLocationType"></param>
+        /// <param name="backupLocation"></param>
         /// <returns></returns>
-        public async Task<FullBackup> FullBackup(IBackupLocationFactoryResolver factoryResolver, BackupLocationType targetLocationType)
+        public async Task<FullBackup> CreateFullBackupAsync(
+            IBackupLocationFactoryResolver factoryResolver, 
+            BackupLocationType backupLocationType,
+            string backupLocation
+            )
         {
-            return await FullBackup(factoryResolver, BackupLocationType.CIFS, targetLocationType);
-        }
-
-        public async Task<FullBackup> FullBackup(IBackupLocationFactoryResolver factoryResolver, BackupLocationType soruceLocationType, BackupLocationType targetLocationType)
-        {
-            throw new NotImplementedException();
+            string baseDirectory = $"{backupLocation}/{Name}";
+            FullBackup backup = await FullBackup.CreateNewAsync(this, factoryResolver, backupLocationType, baseDirectory);
+            return backup;
         }
 
         //public async Task BackupVirtualDiskIncrementallyAsync(VirtualDisk vd, IBackupStreamFactory streamFactory, Stream targetStream)
