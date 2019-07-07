@@ -6,6 +6,6 @@ namespace BackupManagement.Domain
 {
     public interface IBackupLocationFactoryResolver
     {
-        IBackupLocationFactory Resolve(BackupLocationType backupType);
+        IBackupLocationFactory Resolve(LocationType backupType);
     }
 }

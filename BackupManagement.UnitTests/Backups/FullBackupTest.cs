@@ -24,10 +24,10 @@ namespace BackupManagement.UnitTests.Backups
             string backupLocation = "newBackupLocation";
 
             // Run
-            FullBackup backup = await FullBackup.CreateNewAsync(vm, resolver, BackupLocationType.CIFS, backupLocation);
+            FullBackup backup = await FullBackup.CreateNewAsync(vm, resolver, LocationType.CIFS, backupLocation);
 
             // Test
-            IBackupLocationFactory factory = resolver.Resolve(BackupLocationType.CIFS);
+            IBackupLocationFactory factory = resolver.Resolve(LocationType.CIFS);
             // Get the byte[] that was written (our backup)
             string virtualDiskBackupLocation = $"{backup.Path}/{vm.VirtualDisks[0].FileName}";
             Stream savedDataStream = factory.Open(virtualDiskBackupLocation);

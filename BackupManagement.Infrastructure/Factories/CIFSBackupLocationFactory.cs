@@ -12,7 +12,7 @@ namespace BackupManagement.Infrastructure.Factories
             return fs;
         }
 
-        public Stream Open(Backup backup)
+        public Stream Open(IncrementalBackup backup)
         {
             throw new NotImplementedException();
         }

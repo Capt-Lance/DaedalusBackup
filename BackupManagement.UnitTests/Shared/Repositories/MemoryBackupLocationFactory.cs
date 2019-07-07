@@ -36,7 +36,7 @@ namespace BackupManagement.UnitTests.Shared.Repositories
             return new MemoryStream(data[chunk.Hash]);
         }
 
-        public Stream Open(Backup backup)
+        public Stream Open(IncrementalBackup backup)
         {
             throw new NotImplementedException();
         }

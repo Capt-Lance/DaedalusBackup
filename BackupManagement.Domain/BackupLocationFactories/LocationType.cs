@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BackupManagement.Domain
 {
-    public enum BackupLocationType
+    public enum LocationType
     {
         CIFS = 1,
     }

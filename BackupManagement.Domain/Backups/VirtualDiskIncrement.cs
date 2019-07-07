@@ -8,30 +8,39 @@ using System.Threading.Tasks;
 
 namespace BackupManagement.Domain
 {
-    public class Increment
+    public class VirtualDiskIncrement
     {
         public DateTime DateCreated { get; private set; }
         public List<Chunk> Chunks { get; private set; }
-
-        private Increment()
+        public string VirtualDiskName { get; private set; }
+        private const int incrementSize = 536870912; //512MB
+        private VirtualDiskIncrement()
         {
             DateCreated = DateTime.Now;
             Chunks = new List<Chunk>();
         }
 
-        public static async Task<Increment> CreateNewAsync(Stream readStream, IBackupLocationFactory streamFactory, string path, int incrementSize, HashSet<string> existingChunkHashes)
+        public static async Task<VirtualDiskIncrement> CreateNewAsync(
+            IBackupLocationFactory sourceLocationFactory, 
+            VirtualDisk vd, 
+            IBackupLocationFactory targetLocationFactory, 
+            string targetLocation, 
+            int incrementSize, 
+            HashSet<string> existingChunkHashes
+            )
         {
             byte[] buffer = new byte[incrementSize];
             int chunkIndex = 0;
-            Increment increment = new Increment();
-            while (readStream.Position < readStream.Length)
+            VirtualDiskIncrement increment = new VirtualDiskIncrement();
+            Stream sourceStream = sourceLocationFactory.Open(vd);
+            while (sourceStream.Position < sourceStream.Length)
             {
-                long remainingBytes = readStream.Length - readStream.Position;
+                long remainingBytes = sourceStream.Length - sourceStream.Position;
                 if (remainingBytes < buffer.Length)
                 {
                     buffer = new byte[remainingBytes];
                 }
-                await readStream.ReadAsync(buffer);
+                await sourceStream.ReadAsync(buffer);
                 var sha = SHA256.Create();
                 byte[] hashBytes = sha.ComputeHash(buffer);
                 string hash = Convert.ToBase64String(hashBytes);
@@ -39,7 +48,7 @@ namespace BackupManagement.Domain
                 increment.Chunks.Add(chunk);
                 if (!existingChunkHashes.Contains(chunk.Hash))
                 {
-                    Stream targetStream = streamFactory.Open(chunk, path);
+                    Stream targetStream = targetLocationFactory.Open(chunk, targetLocation);
                     await targetStream.WriteAsync(buffer);
                     targetStream.Close();
                     existingChunkHashes.Add(chunk.Hash);

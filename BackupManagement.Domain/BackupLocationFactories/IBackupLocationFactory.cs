@@ -5,7 +5,8 @@ namespace BackupManagement.Domain
     public interface IBackupLocationFactory
     {
         Stream Open(VirtualDisk vd);
-        Stream Open(Backup backup);
+
+        IncrementCollection GetIncrementCollection(IncrementalBackup backup, string targetLocation);
         Stream Open(Chunk chunk, string path);
         Stream Open(string path);
 

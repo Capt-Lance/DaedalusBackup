@@ -14,7 +14,7 @@ namespace BackupManagement.Domain
             VirtualDiskBackupLocations = new Dictionary<string, string>();
         }
 
-        private  async Task BackupVirtualDisk(VirtualDisk vd, IBackupLocationFactoryResolver locationFactoryResolver, BackupLocationType sourceLocationType, BackupLocationType targetLocationType, string basePath)
+        private  async Task BackupVirtualDisk(VirtualDisk vd, IBackupLocationFactoryResolver locationFactoryResolver, LocationType sourceLocationType, LocationType targetLocationType, string basePath)
         {
             IBackupLocationFactory targetFactory = locationFactoryResolver.Resolve(targetLocationType);
             IBackupLocationFactory sourceFactory = locationFactoryResolver.Resolve(sourceLocationType);
@@ -36,7 +36,7 @@ namespace BackupManagement.Domain
             sourceStream.Close();
             VirtualDiskBackupLocations.Add(vd.FileName, backupLocation);
         }
-        public static async Task<FullBackup> CreateNewAsync(VirtualMachine vm, IBackupLocationFactoryResolver locationFactoryResolver, BackupLocationType targetLocationType, string backupLocation)
+        public static async Task<FullBackup> BackupAsync(IBackupLocationFactoryResolver locationFactoryResolver, VirtualMachine vm, LocationType targetLocationType, string backupLocation)
         {
             FullBackup backup = new FullBackup(DateTime.UtcNow, backupLocation);
             Task[] backupTasks = new Task[vm.VirtualDisks.Count];

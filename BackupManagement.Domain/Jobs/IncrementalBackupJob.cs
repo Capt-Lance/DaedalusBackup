@@ -10,14 +10,14 @@ namespace BackupManagement.Domain.Jobs
         private IncrementalBackupJob(
             DateTime dateCreated,
             DateTime dateModified,
-            BackupLocationType targetLocationType,
+            LocationType targetLocationType,
             string targetLocation,
             List<VirtualMachine> vms
             ) : base(dateCreated, dateModified, targetLocationType, targetLocation, vms)
         {
         }
 
-        public IncrementalBackupJob CreateNew(List<VirtualMachine> vms, BackupLocationType backupType, string path)
+        public IncrementalBackupJob CreateNew(List<VirtualMachine> vms, LocationType backupType, string path)
         {
             IncrementalBackupJob job = new IncrementalBackupJob(DateTime.UtcNow, DateTime.UtcNow, backupType, path, vms);
             return job;

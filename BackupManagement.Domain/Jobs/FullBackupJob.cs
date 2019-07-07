@@ -13,7 +13,7 @@ namespace BackupManagement.Domain
         private FullBackupJob(
             DateTime dateCreated, 
             DateTime dateModified, 
-            BackupLocationType targetLocationType, 
+            LocationType targetLocationType, 
             string targetLocation,
             List<VirtualMachine> vms
             ): base(dateCreated, dateModified, targetLocationType, targetLocation, vms)
@@ -21,7 +21,7 @@ namespace BackupManagement.Domain
 
         }
 
-        public static FullBackupJob CreateNew(List<VirtualMachine> vms, BackupLocationType backupType, string path)
+        public static FullBackupJob CreateNew(List<VirtualMachine> vms, LocationType backupType, string path)
         {
             FullBackupJob job = new FullBackupJob(DateTime.UtcNow, DateTime.UtcNow, backupType, path, vms);
             return job;

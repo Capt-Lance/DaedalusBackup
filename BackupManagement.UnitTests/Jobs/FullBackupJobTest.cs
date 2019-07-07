@@ -16,7 +16,7 @@ namespace BackupManagement.UnitTests.Jobs
         public async Task FullBackupCreated()
         {
             List<VirtualMachine> vms = new List<VirtualMachine>();
-            FullBackupJob backupJob = FullBackupJob.CreateNew(vms, BackupLocationType.CIFS, "testlocation");
+            FullBackupJob backupJob = FullBackupJob.CreateNew(vms, LocationType.CIFS, "testlocation");
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace BackupManagement.UnitTests.Jobs
             vms.Add(vm);
 
             // create job
-            FullBackupJob backupJob = FullBackupJob.CreateNew(vms, BackupLocationType.CIFS, "testlocation");
+            FullBackupJob backupJob = FullBackupJob.CreateNew(vms, LocationType.CIFS, "testlocation");
             IBackupLocationFactoryResolver resolver = new MemoryBackupLocationFactoryResolver();
             await backupJob.Run(resolver);
 
@@ -51,12 +51,12 @@ namespace BackupManagement.UnitTests.Jobs
             vms.Add(vm);
 
             // create job
-            FullBackupJob backupJob = FullBackupJob.CreateNew(vms, BackupLocationType.CIFS, "testlocation");
+            FullBackupJob backupJob = FullBackupJob.CreateNew(vms, LocationType.CIFS, "testlocation");
             IBackupLocationFactoryResolver resolver = new MemoryBackupLocationFactoryResolver();
             await backupJob.Run(resolver);
 
             // test
-            IBackupLocationFactory factory = resolver.Resolve(BackupLocationType.CIFS);
+            IBackupLocationFactory factory = resolver.Resolve(LocationType.CIFS);
             // Get the byte[] that was written (our backup)
             string virtualDiskBackupLocation = $"{backupJob.Backups[0].Path}/{vm.VirtualDisks[0].FileName}";
             Stream savedDataStream = factory.Open(virtualDiskBackupLocation);

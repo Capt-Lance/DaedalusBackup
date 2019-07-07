@@ -8,7 +8,7 @@ namespace BackupManagement.UnitTests.Shared.Repositories
     public class MemoryBackupLocationFactoryResolver : IBackupLocationFactoryResolver
     {
         private MemoryBackupLocationFactory memoryFactory;
-        public IBackupLocationFactory Resolve(BackupLocationType backupType)
+        public IBackupLocationFactory Resolve(LocationType backupType)
         {
             if (memoryFactory == null)
             {

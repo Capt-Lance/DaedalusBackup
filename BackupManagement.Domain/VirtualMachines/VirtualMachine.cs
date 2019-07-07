@@ -12,8 +12,8 @@ namespace BackupManagement.Domain
 
         public List<VirtualDisk> VirtualDisks { get; private set; }
 
-        public BackupLocationType SourceLocationType { get {
-                return BackupLocationType.CIFS;
+        public LocationType SourceLocationType { get {
+                return LocationType.CIFS;
         } }
 
         private VirtualMachine(Guid id, string name, List<string> vhdPaths)
@@ -36,7 +36,7 @@ namespace BackupManagement.Domain
 
        
         /// <summary>
-        /// Backup the virtual machine to the specified directory
+        /// Backup the virtual machine to the backupLocation
         /// </summary>
         /// <param name="factoryResolver"></param>
         /// <param name="backupLocationType"></param>
@@ -44,24 +44,30 @@ namespace BackupManagement.Domain
         /// <returns></returns>
         public async Task<FullBackup> CreateFullBackupAsync(
             IBackupLocationFactoryResolver factoryResolver, 
-            BackupLocationType backupLocationType,
+            LocationType backupLocationType,
             string backupLocation
             )
         {
             string baseDirectory = $"{backupLocation}/{Name}";
-            FullBackup backup = await FullBackup.CreateNewAsync(this, factoryResolver, backupLocationType, baseDirectory);
+            FullBackup backup = await FullBackup.BackupAsync(factoryResolver, this, backupLocationType, baseDirectory);
             return backup;
         }
 
-        //public async Task BackupVirtualDiskIncrementallyAsync(VirtualDisk vd, IBackupStreamFactory streamFactory, Stream targetStream)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public string GenerateBackupFileName()
+        /// <summary>
+        /// Creates an incremental backup in the backupLocation.
+        /// If an incremental backup has been ran in the backup location, only changed data will be saved.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IncrementalBackup> CreateIncrementalBackupAsync(
+            IBackupLocationFactoryResolver factoryResolver,
+            LocationType targetLocationType,
+            string targetLocation
+            )
         {
-            throw new NotImplementedException();
-            //return
+            string baseDirectory = $"{targetLocation}/{Name}";
+            IncrementalBackup backup = await IncrementalBackup.BackupAsync(this, factoryResolver, targetLocationType, targetLocation);
+            return backup;
         }
+
     }
 }

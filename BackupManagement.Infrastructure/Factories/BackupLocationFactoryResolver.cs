@@ -5,11 +5,11 @@ namespace BackupManagement.Infrastructure.Factories
 {
     public class BackupLocationFactoryResolver
     {
-        public IBackupLocationFactory Resolve(BackupLocationType backupType)
+        public IBackupLocationFactory Resolve(LocationType backupType)
         {
             switch (backupType)
             {
-                case BackupLocationType.CIFS:
+                case LocationType.CIFS:
                     {
                         return new CIFSBackupLocationFactory();
                     }

@@ -24,7 +24,7 @@ namespace BackupManagement.UnitTest.VirtualMachines
             string backupLocation = "newBackupLocation";
 
             // Run
-            FullBackup backup = await vm.CreateFullBackupAsync(resolver, BackupLocationType.CIFS, backupLocation);
+            FullBackup backup = await vm.CreateFullBackupAsync(resolver, LocationType.CIFS, backupLocation);
             //FullBackup backup = await FullBackup.CreateNewAsync(vm, resolver, BackupLocationType.CIFS, backupLocation);
 
             // Test

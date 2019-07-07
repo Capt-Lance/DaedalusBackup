@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace BackupManagement.Domain
 {
-    public class Backup
+    public abstract class Backup
     {
         public int Id { get; protected set; }
         public DateTime DateCreated { get; protected set; }
@@ -13,6 +14,9 @@ namespace BackupManagement.Domain
             DateCreated = dateCreated;
             Path = path;
         }
+
+        // Right now backups are static methods. Need to decide if they should be static or instance methods
+        //public abstract Task<Backup> BackupAsync(IBackupLocationFactoryResolver factoryResolver, VirtualMachine vm, LocationType targetLocationType, string targetLocation)
 
     }
 }
