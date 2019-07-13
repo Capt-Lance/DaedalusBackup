@@ -49,7 +49,7 @@ namespace BackupManagement.Domain
             )
         {
             string baseDirectory = $"{backupLocation}/{Name}";
-            FullBackup backup = await FullBackup.BackupAsync(factoryResolver, this, backupLocationType, baseDirectory);
+            FullBackup backup = await FullBackup.BackupAsync(this, factoryResolver, backupLocationType, baseDirectory);
             return backup;
         }
 

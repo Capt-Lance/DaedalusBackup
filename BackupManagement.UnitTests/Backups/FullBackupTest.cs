@@ -24,7 +24,7 @@ namespace BackupManagement.UnitTests.Backups
             string backupLocation = "newBackupLocation";
 
             // Run
-            FullBackup backup = await FullBackup.CreateNewAsync(vm, resolver, LocationType.CIFS, backupLocation);
+            FullBackup backup = await FullBackup.BackupAsync(vm, resolver, LocationType.CIFS, backupLocation);
 
             // Test
             IBackupLocationFactory factory = resolver.Resolve(LocationType.CIFS);
@@ -36,7 +36,7 @@ namespace BackupManagement.UnitTests.Backups
             byte[] savedData = savedDataMs.ToArray();
 
             // Get the byte[] we started with
-            Stream originalDataStream = factory.Open(vhdPaths[0]);
+            Stream originalDataStream = factory.Open(vm.VirtualDisks[0]);
             MemoryStream originalDataMs = new MemoryStream();
             originalDataStream.CopyTo(originalDataMs);
             byte[] originalData = originalDataMs.ToArray();

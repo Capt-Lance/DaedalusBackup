@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackupManagement.Domain.Jobs
+namespace BackupManagement.Domain
 {
     public class IncrementalBackupJob : BackupJob<IncrementalBackup>
     {
@@ -17,14 +17,18 @@ namespace BackupManagement.Domain.Jobs
         {
         }
 
-        public IncrementalBackupJob CreateNew(List<VirtualMachine> vms, LocationType backupType, string path)
+        public static IncrementalBackupJob CreateNew(List<VirtualMachine> vms, LocationType backupType, string path)
         {
             IncrementalBackupJob job = new IncrementalBackupJob(DateTime.UtcNow, DateTime.UtcNow, backupType, path, vms);
             return job;
         }
-        public override Task Run(IBackupLocationFactoryResolver backupLocationFactoryResolver)
+        public override async Task RunAsync(IBackupLocationFactoryResolver backupLocationFactoryResolver)
         {
-            throw new NotImplementedException();
+            foreach(VirtualMachine vm in VirtualMachines)
+            {
+                IncrementalBackup backup = await vm.CreateIncrementalBackupAsync(backupLocationFactoryResolver, TargetLocationType, TargetLocation);
+                Backups.Add(backup);
+            }
         }
     }
 }

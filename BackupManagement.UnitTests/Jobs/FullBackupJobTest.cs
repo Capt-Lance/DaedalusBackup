@@ -33,7 +33,7 @@ namespace BackupManagement.UnitTests.Jobs
             // create job
             FullBackupJob backupJob = FullBackupJob.CreateNew(vms, LocationType.CIFS, "testlocation");
             IBackupLocationFactoryResolver resolver = new MemoryBackupLocationFactoryResolver();
-            await backupJob.Run(resolver);
+            await backupJob.RunAsync(resolver);
 
             // Test
             Assert.True(backupJob.Backups.Count > 0, "Backup was not added to backupJob");
@@ -53,7 +53,7 @@ namespace BackupManagement.UnitTests.Jobs
             // create job
             FullBackupJob backupJob = FullBackupJob.CreateNew(vms, LocationType.CIFS, "testlocation");
             IBackupLocationFactoryResolver resolver = new MemoryBackupLocationFactoryResolver();
-            await backupJob.Run(resolver);
+            await backupJob.RunAsync(resolver);
 
             // test
             IBackupLocationFactory factory = resolver.Resolve(LocationType.CIFS);

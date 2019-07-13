@@ -36,7 +36,7 @@ namespace BackupManagement.Domain
             sourceStream.Close();
             VirtualDiskBackupLocations.Add(vd.FileName, backupLocation);
         }
-        public static async Task<FullBackup> BackupAsync(IBackupLocationFactoryResolver locationFactoryResolver, VirtualMachine vm, LocationType targetLocationType, string backupLocation)
+        public static async Task<FullBackup> BackupAsync(VirtualMachine vm, IBackupLocationFactoryResolver locationFactoryResolver, LocationType targetLocationType, string backupLocation)
         {
             FullBackup backup = new FullBackup(DateTime.UtcNow, backupLocation);
             Task[] backupTasks = new Task[vm.VirtualDisks.Count];

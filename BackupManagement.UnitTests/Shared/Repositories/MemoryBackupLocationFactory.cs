@@ -2,15 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace BackupManagement.UnitTests.Shared.Repositories
 {
     /// <summary>
-    /// Mocked BackupLocationFactory that is in memory. This setup is hacky as all the byte[] inside data have to have the same length
+    /// Mocked BackupLocationFactory that is in memory. This setup is hacky as all the 
+    /// byte[]'s inside data have to have the same length since we can't create them at runtime
+    /// TODO: MAKE THIS NOT HACKY
     /// </summary>
     public class MemoryBackupLocationFactory : IBackupLocationFactory
     {
         private Dictionary<string, byte[]> data = new Dictionary<string, byte[]>();
+        private Dictionary<string, IncrementCollection> incrementCollections = new Dictionary<string, IncrementCollection>();
         private const int byteArrayLength = 789;
 
         public Stream Open(VirtualDisk vd)
@@ -61,5 +65,19 @@ namespace BackupManagement.UnitTests.Shared.Repositories
             }
             return data[path];
         }
+
+        public Task<IncrementCollection> GetIncrementCollectionAsync(string targetLocation)
+        {
+            IncrementCollection collection = incrementCollections.ContainsKey(targetLocation) ? incrementCollections[targetLocation] : null;
+            return Task.FromResult(collection);
+        }
+
+        public Task SaveIncrementCollectionAsync(IncrementCollection incrementCollection, string targetLocation)
+        {
+            incrementCollections[targetLocation] = incrementCollection;
+            return Task.CompletedTask;
+        }
+
+
     }
 }

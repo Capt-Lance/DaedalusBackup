@@ -27,7 +27,7 @@ namespace BackupManagement.Domain
             return job;
         }
 
-        public override async Task Run(IBackupLocationFactoryResolver backupLocationFactoryResolver)
+        public override async Task RunAsync(IBackupLocationFactoryResolver backupLocationFactoryResolver)
         {
             Task<FullBackup>[] tasks = new Task<FullBackup>[VirtualMachines.Count];
             int i = 0;

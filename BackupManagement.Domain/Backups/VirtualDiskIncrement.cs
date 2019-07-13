@@ -20,19 +20,42 @@ namespace BackupManagement.Domain
             Chunks = new List<Chunk>();
         }
 
+        private async Task SaveVirtualDiskChunkAsync(
+            Stream sourceStream,
+            int chunkIndex,
+            HashSet<string> existingChunkHashes,
+            IBackupLocationFactory targetLocationFactory,
+            string targetLocation,
+            byte[] buffer)
+        {
+            await sourceStream.ReadAsync(buffer);
+            var sha = SHA256.Create();
+            byte[] hashBytes = sha.ComputeHash(buffer);
+            string hash = Convert.ToBase64String(hashBytes);
+            Chunk chunk = Chunk.CreateNew(chunkIndex, hash);
+            Chunks.Add(chunk);
+            if (!existingChunkHashes.Contains(chunk.Hash))
+            {
+                Stream targetStream = targetLocationFactory.Open(chunk, targetLocation);
+                await targetStream.WriteAsync(buffer);
+                targetStream.Close();
+                existingChunkHashes.Add(chunk.Hash);
+            }
+        }
+
         public static async Task<VirtualDiskIncrement> CreateNewAsync(
+            VirtualDisk vd,
             IBackupLocationFactory sourceLocationFactory, 
-            VirtualDisk vd, 
             IBackupLocationFactory targetLocationFactory, 
             string targetLocation, 
             int incrementSize, 
             HashSet<string> existingChunkHashes
             )
         {
-            byte[] buffer = new byte[incrementSize];
-            int chunkIndex = 0;
             VirtualDiskIncrement increment = new VirtualDiskIncrement();
             Stream sourceStream = sourceLocationFactory.Open(vd);
+            byte[] buffer = new byte[incrementSize];
+            int chunkIndex = 0;
             while (sourceStream.Position < sourceStream.Length)
             {
                 long remainingBytes = sourceStream.Length - sourceStream.Position;
@@ -40,20 +63,7 @@ namespace BackupManagement.Domain
                 {
                     buffer = new byte[remainingBytes];
                 }
-                await sourceStream.ReadAsync(buffer);
-                var sha = SHA256.Create();
-                byte[] hashBytes = sha.ComputeHash(buffer);
-                string hash = Convert.ToBase64String(hashBytes);
-                Chunk chunk = Chunk.CreateNew(chunkIndex, hash);
-                increment.Chunks.Add(chunk);
-                if (!existingChunkHashes.Contains(chunk.Hash))
-                {
-                    Stream targetStream = targetLocationFactory.Open(chunk, targetLocation);
-                    await targetStream.WriteAsync(buffer);
-                    targetStream.Close();
-                    existingChunkHashes.Add(chunk.Hash);
-                }
-
+                await increment.SaveVirtualDiskChunkAsync(sourceStream, chunkIndex, existingChunkHashes, targetLocationFactory, targetLocation, buffer);
                 chunkIndex++;
             }
             return increment;

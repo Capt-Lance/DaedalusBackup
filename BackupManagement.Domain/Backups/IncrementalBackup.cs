@@ -15,6 +15,8 @@ namespace BackupManagement.Domain
         public int IncrementSize;
         public const string incrementFileName = "increments.json";
 
+        private static int _incrementSize = 512 * 1024 * 1024; //512MB -> KB -> B
+
         private IncrementalBackup(DateTime dateCreated, DateTime dateModified, string path, int incrementSize) : base(dateCreated, path)
         {
             IncrementSize = incrementSize;
@@ -32,16 +34,27 @@ namespace BackupManagement.Domain
         //    return backup;
         //}
 
-        public static async Task BackupAsync(
+        public static async Task<IncrementalBackup> BackupAsync(
+            VirtualMachine vm,
             IBackupLocationFactoryResolver locationFactoryResolver, 
-            LocationType sourceLocationType, 
             LocationType targetLocationType,
             string targetLocation)
         {
-            IBackupLocationFactory sourceFactory = locationFactoryResolver.Resolve(sourceLocationType);
+            IBackupLocationFactory sourceFactory = locationFactoryResolver.Resolve(vm.SourceLocationType);
             IBackupLocationFactory targetFactory = locationFactoryResolver.Resolve(targetLocationType);
-            IncrementCollection incrementCollection = targetFactory.GetIncrementCollection(this, targetLocation);
-            Increment increment = await Increment.CreateNewAsync(sourceFactory, targetFactory, targetLocation, IncrementSize, incrementCollection);
+            IncrementalBackup backup = new IncrementalBackup(DateTime.UtcNow, DateTime.UtcNow, targetLocation, _incrementSize);
+            IncrementCollection incrementCollection = await targetFactory.GetIncrementCollectionAsync(targetLocation);
+
+            backup.IncrementCollection = incrementCollection ?? IncrementCollection.CreateNew();
+            HashSet<string> existingHashSet = incrementCollection?.GetChunkHashes() ?? new HashSet<string>();
+            foreach(VirtualDisk vd in vm.VirtualDisks)
+            {
+                VirtualDiskIncrement increment = await VirtualDiskIncrement.CreateNewAsync(vd, sourceFactory, targetFactory, targetLocation, _incrementSize, existingHashSet);
+                backup.IncrementCollection.AddIncrement(increment);
+            }
+            await targetFactory.SaveIncrementCollectionAsync(backup.IncrementCollection, targetLocation);
+            return backup;
+
         }
     }
 }

@@ -6,9 +6,19 @@ namespace BackupManagement.Domain
 {
     public class IncrementCollection
     {
-        public Increment OriginalIncrement { get; private set; }
-        public List<Increment> Increments { get; private set; }
+        public VirtualDiskIncrement OriginalIncrement { get; private set; }
+        private List<VirtualDiskIncrement> _increments;
+        public IEnumerable<VirtualDiskIncrement> Increments {
+            get
+            {
+                return _increments.AsReadOnly();
+            }
+        }
 
+        private IncrementCollection()
+        {
+            _increments = new List<VirtualDiskIncrement>();
+        }
         public HashSet<string> GetChunkHashes()
         {
             HashSet<string> chunkHashesHashSet = new HashSet<string>();
@@ -16,12 +26,30 @@ namespace BackupManagement.Domain
             {
                 chunkHashesHashSet.UnionWith(OriginalIncrement.GetChunkHashes());
             }
-            foreach (Increment increment in Increments)
+            foreach (VirtualDiskIncrement increment in Increments)
             {
                 chunkHashesHashSet.UnionWith(increment.GetChunkHashes());
             }
             return chunkHashesHashSet;
         }
+
+        public static IncrementCollection CreateNew()
+        {
+            return new IncrementCollection();
+        }
+
+        public void AddIncrement(VirtualDiskIncrement increment)
+        {
+            if (OriginalIncrement == null)
+            {
+                OriginalIncrement = increment;
+            }
+            else
+            {
+                _increments.Add(increment);
+            }
+        }
+
     }
 
 

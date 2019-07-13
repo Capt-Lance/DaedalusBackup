@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BackupManagement.Domain
 {
-    public abstract class BackupJob<T>: IJob where T: IncrementalBackup
+    public abstract class BackupJob<T>: IJob where T: Backup
     {
         public int Id { get; private set; }
         public List<T> Backups { get; protected set; }
@@ -34,7 +34,7 @@ namespace BackupManagement.Domain
         // Might not make this abstract as each job type might need it's own signature.
         // Need to think about this more
         //public abstract BackupJob CreateNew()
-        public abstract Task Run(IBackupLocationFactoryResolver backupLocationFactoryResolver);
+        public abstract Task RunAsync(IBackupLocationFactoryResolver backupLocationFactoryResolver);
 
     }
 }
