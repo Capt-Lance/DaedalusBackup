@@ -15,8 +15,8 @@ DaedalusBackup is a cross-platform virtual machine backup solution for all the m
 - Add ESXI support
 - Authorization (roles/permissions)
 
-### GUI
-By default, the GUI is [DaedalusBackupDashboard](https://github.com/Capt-Lance/DaedalusBackupDashboard). The intent is to bundle this with each release. Since DaedalusBackup exposes a REST API for interacting with it, creating custom interfaces to interact with it should be relatively easy.
+### User Interface
+By default, the interface is [DaedalusBackupDashboard](https://github.com/Capt-Lance/DaedalusBackupDashboard). The intent is to bundle this with each release. Since DaedalusBackup exposes a REST API for interacting with it, creating custom interfaces to interact with it should be relatively easy.
 
 ### ESXI
 Why is ESXI last? To backup to ESXI, one needs to have the full license (not the free license) that allows use of the backup API. Many students and testers have access to HyperV, KVM, and VitualBox since they are either free, or they get free licenses due to being a student or using Windows 10. If this gets a lot of support, then the priority for ESXI can be rearranged. Most likely swapped out with VirtualBox.
