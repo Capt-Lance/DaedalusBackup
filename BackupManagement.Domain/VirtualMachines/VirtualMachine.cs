@@ -48,9 +48,10 @@ namespace BackupManagement.Domain
             string backupLocation
             )
         {
-            string baseDirectory = $"{backupLocation}/{Name}";
-            FullBackup backup = await FullBackup.BackupAsync(this, factoryResolver, backupLocationType, baseDirectory);
-            return backup;
+            throw new NotImplementedException();//either get rid of this or make it use events. If keeping this, use defered events instead of explicitly calling the eventBus
+            //string baseDirectory = $"{backupLocation}/{Name}";
+            //FullBackup backup = await FullBackup.BackupAsync(this, factoryResolver, backupLocationType, baseDirectory);
+            //return backup;
         }
 
         /// <summary>
@@ -64,9 +65,10 @@ namespace BackupManagement.Domain
             string targetLocation
             )
         {
-            string baseDirectory = $"{targetLocation}/{Name}";
-            IncrementalBackup backup = await IncrementalBackup.BackupAsync(this, factoryResolver, targetLocationType, targetLocation);
-            return backup;
+            throw new NotImplementedException();// either get rid of this or make it use events (see above)
+            //string baseDirectory = $"{targetLocation}/{Name}";
+            //IncrementalBackup backup = await IncrementalBackup.BackupAsync(this, factoryResolver, targetLocationType, targetLocation);
+            //return backup;
         }
 
     }
