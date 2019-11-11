@@ -5,11 +5,11 @@ using System.Text;
 
 namespace BackupManagement.Domain.DomainEvents
 {
-    public class VirtualMachineFullBackupCreated : INotification
+    public class VirtualMachineIncrementalBackupCreated : INotification
     {
         public VirtualMachine VirtualMachine { get; }
-        public FullBackup Backup { get; }
-        public VirtualMachineFullBackupCreated(VirtualMachine virtualMachine, FullBackup backup)
+        public IncrementalBackup Backup { get; }
+        public VirtualMachineIncrementalBackupCreated(VirtualMachine virtualMachine, IncrementalBackup backup)
         {
             VirtualMachine = virtualMachine;
             Backup = backup;

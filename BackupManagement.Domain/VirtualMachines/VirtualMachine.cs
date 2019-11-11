@@ -34,8 +34,11 @@ namespace BackupManagement.Domain
             return vm;
         }
 
+        private string GetBaseDirectory(string location)
+        {
+            return $"{location}/{Name}";
+        }
 
-       
         /// <summary>
         /// Backup the virtual machine to the backupLocation
         /// </summary>
@@ -49,7 +52,7 @@ namespace BackupManagement.Domain
             string backupLocation
             )
         {
-            FullBackup backup = FullBackup.CreateNew($"{backupLocation}/{Name}");
+            FullBackup backup = FullBackup.CreateNew(GetBaseDirectory(backupLocation));
             var backupCreatedEvent = new VirtualMachineFullBackupCreated(this, backup);
             AddDomainEvent(backupCreatedEvent);
             return backup;
@@ -70,7 +73,13 @@ namespace BackupManagement.Domain
             string targetLocation
             )
         {
-            throw new NotImplementedException();// either get rid of this or make it use events (see above)
+            string baseDirectory = $"{targetLocation}/{Name}";
+            //todo: Don't hardcode size
+            IncrementalBackup backup = IncrementalBackup.CreateNew(baseDirectory, 512);
+            var backupCreatedEvent = new VirtualMachineIncrementalBackupCreated(this, backup);
+            AddDomainEvent(backupCreatedEvent);
+            return backup;
+            //throw new NotImplementedException();// either get rid of this or make it use events (see above)
             //string baseDirectory = $"{targetLocation}/{Name}";
             //IncrementalBackup backup = await IncrementalBackup.BackupAsync(this, factoryResolver, targetLocationType, targetLocation);
             //return backup;

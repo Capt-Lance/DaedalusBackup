@@ -34,6 +34,11 @@ namespace BackupManagement.Domain
         //    return backup;
         //}
 
+        public static IncrementalBackup CreateNew(string baseDirectory, int incrementSize)
+        {
+            return new IncrementalBackup(DateTime.UtcNow, DateTime.UtcNow, baseDirectory, incrementSize);
+        }
+
         public static async Task<IncrementalBackup> BackupAsync(
             VirtualMachine vm,
             IBackupLocationFactoryResolver locationFactoryResolver, 
