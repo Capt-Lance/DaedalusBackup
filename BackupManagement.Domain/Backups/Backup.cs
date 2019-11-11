@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace BackupManagement.Domain
 {
-    public abstract class Backup
+    public abstract class Backup : Entity
     {
         public int Id { get; protected set; }
         public DateTime DateCreated { get; protected set; }

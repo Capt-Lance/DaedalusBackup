@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BackupManagement.Domain
 {
-    public class VirtualDisk
+    public class VirtualDisk : Entity
     {
         /// <summary>
         /// Name of the VirtualDisk w/o extension

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BackupManagement.Domain
 {
-    public abstract class BackupJob<T>: IJob where T: Backup
+    public abstract class BackupJob<T>: Entity, IJob where T: Backup
     {
         public int Id { get; private set; }
         public List<T> Backups { get; protected set; }

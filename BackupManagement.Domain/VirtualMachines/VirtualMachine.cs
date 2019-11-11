@@ -1,11 +1,12 @@
-﻿using System;
+﻿using BackupManagement.Domain.DomainEvents;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
 namespace BackupManagement.Domain
 {
-    public class VirtualMachine
+    public class VirtualMachine: Entity
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }
@@ -48,7 +49,11 @@ namespace BackupManagement.Domain
             string backupLocation
             )
         {
-            throw new NotImplementedException();//either get rid of this or make it use events. If keeping this, use defered events instead of explicitly calling the eventBus
+            FullBackup backup = FullBackup.CreateNew($"{backupLocation}/{Name}");
+            var backupCreatedEvent = new VirtualMachineFullBackupCreated(this, backup);
+            AddDomainEvent(backupCreatedEvent);
+            return backup;
+            //throw new NotImplementedException();//either get rid of this or make it use events. If keeping this, use defered events instead of explicitly calling the eventBus
             //string baseDirectory = $"{backupLocation}/{Name}";
             //FullBackup backup = await FullBackup.BackupAsync(this, factoryResolver, backupLocationType, baseDirectory);
             //return backup;
