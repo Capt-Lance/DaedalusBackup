@@ -22,11 +22,11 @@ namespace BackupManagement.Domain
             IncrementalBackupJob job = new IncrementalBackupJob(DateTime.UtcNow, DateTime.UtcNow, backupType, path, vms);
             return job;
         }
-        public override async Task RunAsync(IBackupLocationFactoryResolver backupLocationFactoryResolver)
+        public override void Run()
         {
             foreach(VirtualMachine vm in VirtualMachines)
             {
-                IncrementalBackup backup = await vm.CreateIncrementalBackupAsync(backupLocationFactoryResolver, TargetLocationType, TargetLocation);
+                IncrementalBackup backup = vm.CreateIncrementalBackup(TargetLocationType, TargetLocation);
                 Backups.Add(backup);
             }
         }

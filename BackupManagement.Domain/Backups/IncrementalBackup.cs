@@ -15,9 +15,9 @@ namespace BackupManagement.Domain
         public int IncrementSize;
         public const string incrementFileName = "increments.json";
 
-        private static int _incrementSize = 512 * 1024 * 1024; //512MB -> KB -> B
+        private static int incrementSize = 512 * 1024 * 1024; //512MB -> KB -> B
 
-        private IncrementalBackup(DateTime dateCreated, DateTime dateModified, string path, int incrementSize) : base(dateCreated, path)
+        private IncrementalBackup(LocationType locationType, string path, int incrementSize, DateTime dateCreated, DateTime dateModified) : base(locationType, path, dateCreated)
         {
             IncrementSize = incrementSize;
             DateModified = dateModified;
@@ -34,30 +34,30 @@ namespace BackupManagement.Domain
         //    return backup;
         //}
 
-        public static IncrementalBackup CreateNew(string baseDirectory, int incrementSize)
+        public static IncrementalBackup CreateNew(LocationType targetLocationType, string targetLocation, int incrementSize)
         {
-            return new IncrementalBackup(DateTime.UtcNow, DateTime.UtcNow, baseDirectory, incrementSize);
+            return new IncrementalBackup(targetLocationType, targetLocation, incrementSize, DateTime.UtcNow, DateTime.UtcNow);
         }
 
         public static async Task<IncrementalBackup> BackupAsync(
             VirtualMachine vm,
-            IBackupLocationFactoryResolver locationFactoryResolver, 
+            //IBackupLocationFactoryResolver locationFactoryResolver, 
             LocationType targetLocationType,
             string targetLocation)
         {
-            IBackupLocationFactory sourceFactory = locationFactoryResolver.Resolve(vm.SourceLocationType);
-            IBackupLocationFactory targetFactory = locationFactoryResolver.Resolve(targetLocationType);
-            IncrementalBackup backup = new IncrementalBackup(DateTime.UtcNow, DateTime.UtcNow, targetLocation, _incrementSize);
-            IncrementCollection incrementCollection = await targetFactory.GetIncrementCollectionAsync(targetLocation);
+            //IBackupLocationFactory sourceFactory = locationFactoryResolver.Resolve(vm.SourceLocationType);
+            //IBackupLocationFactory targetFactory = locationFactoryResolver.Resolve(targetLocationType);
+            IncrementalBackup backup = new IncrementalBackup(targetLocationType, targetLocation, incrementSize, DateTime.UtcNow, DateTime.UtcNow);
+            //IncrementCollection incrementCollection = await targetFactory.GetIncrementCollectionAsync(targetLocation);
 
-            backup.IncrementCollection = incrementCollection ?? IncrementCollection.CreateNew();
-            HashSet<string> existingHashSet = incrementCollection?.GetChunkHashes() ?? new HashSet<string>();
-            foreach(VirtualDisk vd in vm.VirtualDisks)
-            {
-                VirtualDiskIncrement increment = await VirtualDiskIncrement.CreateNewAsync(vd, sourceFactory, targetFactory, targetLocation, _incrementSize, existingHashSet);
-                backup.IncrementCollection.AddIncrement(increment);
-            }
-            await targetFactory.SaveIncrementCollectionAsync(backup.IncrementCollection, targetLocation);
+            //backup.IncrementCollection = incrementCollection ?? IncrementCollection.CreateNew();
+            //HashSet<string> existingHashSet = incrementCollection?.GetChunkHashes() ?? new HashSet<string>();
+            //foreach(VirtualDisk vd in vm.VirtualDisks)
+            //{
+            //    VirtualDiskIncrement increment = await VirtualDiskIncrement.CreateNewAsync(vd, sourceFactory, targetFactory, targetLocation, _incrementSize, existingHashSet);
+            //    backup.IncrementCollection.AddIncrement(increment);
+            //}
+            //await targetFactory.SaveIncrementCollectionAsync(backup.IncrementCollection, targetLocation);
             return backup;
 
         }

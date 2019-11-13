@@ -33,7 +33,7 @@ namespace BackupManagement.Domain.Services
 
         public async Task<FullBackup> BackupAsync(VirtualMachine vm, IBackupLocationFactoryResolver locationFactoryResolver, LocationType targetLocationType, string backupLocation)
         {
-            FullBackup backup = FullBackup.CreateNew(backupLocation);
+            FullBackup backup = FullBackup.CreateNew(targetLocationType, backupLocation);
             Task[] backupTasks = new Task[vm.VirtualDisks.Count];
             for (int i = 0; i < vm.VirtualDisks.Count; i++)
             {

@@ -13,7 +13,27 @@ namespace BackupManagement.UnitTest.VirtualMachines
     public class VirtualMachineTest
     {
         [Fact]
-        public async Task BackupPathCorrect()
+        public void BackupPathCorrect()
+        {
+            // Setup
+            List<string> vhdPaths = new List<string> { "mypath/disk1.vhd" };
+            Guid vmId = Guid.NewGuid();
+            string testVmName = "test1";
+            VirtualMachine vm = VirtualMachine.FromExisting(vmId, testVmName, vhdPaths);
+            LocationType locationType = LocationType.CIFS;
+            string backupLocation = "newBackupLocation";
+
+            // Run
+            FullBackup backup = vm.CreateFullBackup(LocationType.CIFS, backupLocation);
+            //FullBackup backup = await FullBackup.CreateNewAsync(vm, resolver, BackupLocationType.CIFS, backupLocation);
+
+            // Test
+            string expectedPath = $"{backupLocation}/{vm.Name}";
+            Assert.True(backup.Path == expectedPath, "Backup.Path does not equal the expected path");
+        }
+
+        [Fact]
+        public void BackupLocationTypeCorrect()
         {
             // Setup
             List<string> vhdPaths = new List<string> { "mypath/disk1.vhd" };
@@ -24,12 +44,10 @@ namespace BackupManagement.UnitTest.VirtualMachines
             string backupLocation = "newBackupLocation";
 
             // Run
-            FullBackup backup = await vm.CreateFullBackupAsync(resolver, LocationType.CIFS, backupLocation);
-            //FullBackup backup = await FullBackup.CreateNewAsync(vm, resolver, BackupLocationType.CIFS, backupLocation);
+            FullBackup backup = vm.CreateFullBackup(LocationType.CIFS, backupLocation);
 
-            // Test
-            string expectedPath = $"{backupLocation}/{vm.Name}";
-            Assert.True(backup.Path == expectedPath, "Backup.Path does not equal the expected path");
+
         }
+
     }
 }

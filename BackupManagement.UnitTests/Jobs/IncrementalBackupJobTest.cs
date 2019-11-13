@@ -26,7 +26,7 @@ namespace BackupManagement.UnitTests.Jobs
 
             // Run
             IncrementalBackupJob job = IncrementalBackupJob.CreateNew(vms, targetLocationType, targetLocation);
-            await job.RunAsync(resolver);
+            job.Run();
 
             // Test
             Assert.True(job.Backups.Count > 0, "Backup not created");

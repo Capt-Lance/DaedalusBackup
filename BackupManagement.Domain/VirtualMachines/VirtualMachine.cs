@@ -40,49 +40,38 @@ namespace BackupManagement.Domain
         }
 
         /// <summary>
-        /// Backup the virtual machine to the backupLocation
+        /// Creates an instance of FullBackup with the VirtualMachineFullBackupCreated domain event added
         /// </summary>
         /// <param name="factoryResolver"></param>
-        /// <param name="backupLocationType"></param>
+        /// <param name="targetLocationType"></param>
         /// <param name="backupLocation"></param>
         /// <returns></returns>
-        public async Task<FullBackup> CreateFullBackupAsync(
-            IBackupLocationFactoryResolver factoryResolver, 
-            LocationType backupLocationType,
+        public FullBackup CreateFullBackup(
+            LocationType targetLocationType,
             string backupLocation
             )
         {
-            FullBackup backup = FullBackup.CreateNew(GetBaseDirectory(backupLocation));
+            FullBackup backup = FullBackup.CreateNew(targetLocationType, GetBaseDirectory(backupLocation));
             var backupCreatedEvent = new VirtualMachineFullBackupCreated(this, backup);
             AddDomainEvent(backupCreatedEvent);
             return backup;
-            //throw new NotImplementedException();//either get rid of this or make it use events. If keeping this, use defered events instead of explicitly calling the eventBus
-            //string baseDirectory = $"{backupLocation}/{Name}";
-            //FullBackup backup = await FullBackup.BackupAsync(this, factoryResolver, backupLocationType, baseDirectory);
-            //return backup;
         }
 
         /// <summary>
-        /// Creates an incremental backup in the backupLocation.
-        /// If an incremental backup has been ran in the backup location, only changed data will be saved.
+        /// Creates an instance of IncrementalBackup with the VirtualMachineIncrementalBackupCreated domain event added
         /// </summary>
         /// <returns></returns>
-        public async Task<IncrementalBackup> CreateIncrementalBackupAsync(
-            IBackupLocationFactoryResolver factoryResolver,
+        public IncrementalBackup CreateIncrementalBackup(
             LocationType targetLocationType,
             string targetLocation
             )
         {
             string baseDirectory = $"{targetLocation}/{Name}";
             //todo: Don't hardcode size
-            IncrementalBackup backup = IncrementalBackup.CreateNew(baseDirectory, 512);
+            IncrementalBackup backup = IncrementalBackup.CreateNew(targetLocationType, baseDirectory, 512);
             var backupCreatedEvent = new VirtualMachineIncrementalBackupCreated(this, backup);
             AddDomainEvent(backupCreatedEvent);
             return backup;
-            //throw new NotImplementedException();// either get rid of this or make it use events (see above)
-            //string baseDirectory = $"{targetLocation}/{Name}";
-            //IncrementalBackup backup = await IncrementalBackup.BackupAsync(this, factoryResolver, targetLocationType, targetLocation);
-            //return backup;
         }
 
     }

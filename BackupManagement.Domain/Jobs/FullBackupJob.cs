@@ -27,22 +27,18 @@ namespace BackupManagement.Domain
             return job;
         }
 
-        public override async Task RunAsync(IBackupLocationFactoryResolver backupLocationFactoryResolver)
+        public override void Run()
         {
-            Task<FullBackup>[] tasks = new Task<FullBackup>[VirtualMachines.Count];
+            List<FullBackup> backups = new List<FullBackup>(VirtualMachines.Count);
             int i = 0;
             string subdirectory = $"{TargetLocation}/{DateHelper.FileUTCNow()}";
             foreach(VirtualMachine vm in VirtualMachines)
             {
-                Task<FullBackup> task = vm.CreateFullBackupAsync(backupLocationFactoryResolver, TargetLocationType, subdirectory);
-                tasks[0] = task;
+                FullBackup backup = vm.CreateFullBackup(TargetLocationType, subdirectory);
+                backups[0] = backup;
                 i++;
             }
-            await Task.WhenAll(tasks);
-            foreach (Task<FullBackup> task in tasks)
-            {
-                Backups.Add(task.Result);
-            }
+            Backups.AddRange(backups);
         }
     }
 }

@@ -6,12 +6,14 @@ namespace BackupManagement.Domain
     public abstract class Backup : Entity
     {
         public int Id { get; protected set; }
-        public DateTime DateCreated { get; protected set; }
+        public DateTime DateCreated { get; private set; }
+        public LocationType LocationType { get; private set; }
         public string Path { get; protected set; }
 
-        public Backup(DateTime dateCreated, string path)
+        public Backup(LocationType locationType, string path, DateTime dateCreated)
         {
             DateCreated = dateCreated;
+            LocationType = locationType;
             Path = path;
         }
 

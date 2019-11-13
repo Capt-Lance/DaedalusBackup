@@ -7,6 +7,6 @@ namespace BackupManagement.Domain
 {
     public interface IJob
     {
-        Task RunAsync(IBackupLocationFactoryResolver backupLocationFactoryResolver);
+        void Run();
     }
 }

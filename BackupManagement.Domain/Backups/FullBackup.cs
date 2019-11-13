@@ -16,14 +16,14 @@ namespace BackupManagement.Domain
                 return new ReadOnlyDictionary<string, string>(_virtualDiskBackupLocations);
             } 
         }
-        private FullBackup(DateTime dateCreated, string path): base( dateCreated, path)
+        private FullBackup(LocationType locationType, string path, DateTime dateCreated): base(locationType, path, dateCreated)
         {
             _virtualDiskBackupLocations = new Dictionary<string, string>();
         }
 
-        public static FullBackup CreateNew(string path)
+        public static FullBackup CreateNew(LocationType locationType, string path)
         {
-            return new FullBackup(DateTime.UtcNow, path);
+            return new FullBackup(locationType, path, DateTime.UtcNow);
         }
 
 

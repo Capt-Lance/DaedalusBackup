@@ -34,7 +34,7 @@ namespace BackupManagement.Domain
         // Might not make this abstract as each job type might need it's own signature.
         // Need to think about this more
         //public abstract BackupJob CreateNew()
-        public abstract Task RunAsync(IBackupLocationFactoryResolver backupLocationFactoryResolver);
+        public abstract void Run();
 
     }
 }
