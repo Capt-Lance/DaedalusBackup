@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using Xunit;
 
-namespace BackupManagement.IntegrationTests.VirtualMachines
+namespace BackupManagement.IntegrationTests.HyperV
 {
-    public class VirtualMachineRepositoryTest
+    public class HyperVVirtualMachineRepositoryTest
     {
         [Fact]
         public void GetVirtualMachines()
@@ -29,7 +29,7 @@ namespace BackupManagement.IntegrationTests.VirtualMachines
         {
             HyperVVirtualMachineRepository vmRepo = new HyperVVirtualMachineRepository();
             IEnumerable<VirtualMachine> vms = vmRepo.GetAll();
-            bool allExist = true;
+            bool allExist = vms.Count() > 0;
             foreach(VirtualMachine vm in vms)
             {
                 foreach(VirtualDisk vd in vm.VirtualDisks)
