@@ -1,4 +1,5 @@
-﻿using BackupManagement.Domain.Helpers;
+﻿using BackupManagement.Domain.Common.Helpers;
+using BackupManagement.Domain.FullBackups;
 using System;
 using System.Collections.Generic;
 using System.Text;

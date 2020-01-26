@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackupManagement.Domain
+namespace BackupManagement.Domain.Backups.IncrementalBackups
 {
     public class VirtualDiskIncrement
     {

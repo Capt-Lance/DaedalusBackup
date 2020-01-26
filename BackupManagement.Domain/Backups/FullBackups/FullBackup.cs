@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackupManagement.Domain
+namespace BackupManagement.Domain.FullBackups
 {
     public class FullBackup : Backup
     {

@@ -1,4 +1,5 @@
 ﻿using BackupManagement.Domain;
+using BackupManagement.Domain.FullBackups;
 using BackupManagement.UnitTests.Shared.Repositories;
 using System;
 using System.Collections.Generic;

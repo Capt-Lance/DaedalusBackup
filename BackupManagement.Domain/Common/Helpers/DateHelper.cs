@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BackupManagement.Domain.Helpers
+namespace BackupManagement.Domain.Common.Helpers
 {
     public class DateHelper
     {

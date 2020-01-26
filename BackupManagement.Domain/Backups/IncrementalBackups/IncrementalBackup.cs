@@ -4,7 +4,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 
-namespace BackupManagement.Domain
+namespace BackupManagement.Domain.Backups.IncrementalBackups
 {
     public class IncrementalBackup : Backup
     {

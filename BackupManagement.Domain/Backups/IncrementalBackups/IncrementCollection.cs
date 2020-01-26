@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BackupManagement.Domain
+namespace BackupManagement.Domain.Backups.IncrementalBackups
 {
     public class IncrementCollection
     {

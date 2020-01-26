@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BackupManagement.Domain.Common;
+using System;
 using System.Threading.Tasks;
 
 namespace BackupManagement.Domain

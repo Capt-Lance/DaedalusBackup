@@ -1,4 +1,7 @@
-﻿using BackupManagement.Domain.DomainEvents;
+﻿using BackupManagement.Domain.Backups.IncrementalBackups;
+using BackupManagement.Domain.Common;
+using BackupManagement.Domain.DomainEvents;
+using BackupManagement.Domain.FullBackups;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

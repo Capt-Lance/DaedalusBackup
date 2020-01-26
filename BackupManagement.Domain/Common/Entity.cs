@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BackupManagement.Domain
+namespace BackupManagement.Domain.Common
 {
     public abstract class Entity
     {

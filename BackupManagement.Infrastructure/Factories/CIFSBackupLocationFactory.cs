@@ -1,4 +1,5 @@
 ﻿using BackupManagement.Domain;
+using BackupManagement.Domain.Backups.IncrementalBackups;
 using System;
 using System.IO;
 using System.Threading.Tasks;
