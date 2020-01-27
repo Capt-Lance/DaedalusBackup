@@ -1,4 +1,5 @@
-﻿using BackupManagement.Domain.Common.Helpers;
+﻿using BackupManagement.Domain.Backups.FullBackups;
+using BackupManagement.Domain.Common.Helpers;
 using BackupManagement.Domain.FullBackups;
 using System;
 using System.Collections.Generic;
@@ -35,8 +36,10 @@ namespace BackupManagement.Domain
             string subdirectory = $"{TargetLocation}/{DateHelper.FileUTCNow()}";
             foreach(VirtualMachine vm in VirtualMachines)
             {
-                FullBackup backup = vm.CreateFullBackup(TargetLocationType, subdirectory);
-                backups[0] = backup;
+                FullBackup backup = FullBackup.CreateNew(vm, TargetLocationType, subdirectory);
+                backups[i] = backup;
+                AddDomainEvent(new FullBackupCreatedEvent(backup));
+
                 i++;
             }
             Backups.AddRange(backups);

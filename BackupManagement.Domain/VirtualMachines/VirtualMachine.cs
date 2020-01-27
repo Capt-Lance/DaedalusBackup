@@ -2,6 +2,7 @@
 using BackupManagement.Domain.Common;
 using BackupManagement.Domain.DomainEvents;
 using BackupManagement.Domain.FullBackups;
+using BackupManagement.Domain.VirtualMachines;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BackupManagement.Domain
 {
-    public class VirtualMachine: Entity
+    public class VirtualMachine: AggregateRoot
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }
@@ -50,11 +51,12 @@ namespace BackupManagement.Domain
         /// <param name="backupLocation"></param>
         /// <returns></returns>
         public FullBackup CreateFullBackup(
+            VirtualMachine vm,
             LocationType targetLocationType,
             string backupLocation
             )
         {
-            FullBackup backup = FullBackup.CreateNew(targetLocationType, GetBaseDirectory(backupLocation));
+            FullBackup backup = FullBackup.CreateNew(vm, targetLocationType, GetBaseDirectory(backupLocation));
             var backupCreatedEvent = new VirtualMachineFullBackupCreated(this, backup);
             AddDomainEvent(backupCreatedEvent);
             return backup;
@@ -65,13 +67,14 @@ namespace BackupManagement.Domain
         /// </summary>
         /// <returns></returns>
         public IncrementalBackup CreateIncrementalBackup(
+            VirtualMachine vm,
             LocationType targetLocationType,
             string targetLocation
             )
         {
             string baseDirectory = $"{targetLocation}/{Name}";
             //todo: Don't hardcode size
-            IncrementalBackup backup = IncrementalBackup.CreateNew(targetLocationType, baseDirectory, 512);
+            IncrementalBackup backup = IncrementalBackup.CreateNew(vm, targetLocationType, baseDirectory, 512);
             var backupCreatedEvent = new VirtualMachineIncrementalBackupCreated(this, backup);
             AddDomainEvent(backupCreatedEvent);
             return backup;

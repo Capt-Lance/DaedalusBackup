@@ -17,7 +17,7 @@ namespace BackupManagement.Domain.Backups.IncrementalBackups
 
         private static int incrementSize = 512 * 1024 * 1024; //512MB -> KB -> B
 
-        private IncrementalBackup(LocationType locationType, string path, int incrementSize, DateTime dateCreated, DateTime dateModified) : base(locationType, path, dateCreated)
+        private IncrementalBackup(VirtualMachine vm, LocationType locationType, string path, int incrementSize, DateTime dateCreated, DateTime dateModified) : base(vm, locationType, path, dateCreated)
         {
             IncrementSize = incrementSize;
             DateModified = dateModified;
@@ -34,9 +34,9 @@ namespace BackupManagement.Domain.Backups.IncrementalBackups
         //    return backup;
         //}
 
-        public static IncrementalBackup CreateNew(LocationType targetLocationType, string targetLocation, int incrementSize)
+        public static IncrementalBackup CreateNew(VirtualMachine vm, LocationType targetLocationType, string targetLocation, int incrementSize)
         {
-            return new IncrementalBackup(targetLocationType, targetLocation, incrementSize, DateTime.UtcNow, DateTime.UtcNow);
+            return new IncrementalBackup(vm, targetLocationType, targetLocation, incrementSize, DateTime.UtcNow, DateTime.UtcNow);
         }
 
         public static async Task<IncrementalBackup> BackupAsync(
@@ -47,7 +47,7 @@ namespace BackupManagement.Domain.Backups.IncrementalBackups
         {
             //IBackupLocationFactory sourceFactory = locationFactoryResolver.Resolve(vm.SourceLocationType);
             //IBackupLocationFactory targetFactory = locationFactoryResolver.Resolve(targetLocationType);
-            IncrementalBackup backup = new IncrementalBackup(targetLocationType, targetLocation, incrementSize, DateTime.UtcNow, DateTime.UtcNow);
+            IncrementalBackup backup = new IncrementalBackup(vm, targetLocationType, targetLocation, incrementSize, DateTime.UtcNow, DateTime.UtcNow);
             //IncrementCollection incrementCollection = await targetFactory.GetIncrementCollectionAsync(targetLocation);
 
             //backup.IncrementCollection = incrementCollection ?? IncrementCollection.CreateNew();

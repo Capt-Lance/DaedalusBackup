@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BackupManagement.Domain.Backups.FullBackups;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -16,14 +17,15 @@ namespace BackupManagement.Domain.FullBackups
                 return new ReadOnlyDictionary<string, string>(_virtualDiskBackupLocations);
             } 
         }
-        private FullBackup(LocationType locationType, string path, DateTime dateCreated): base(locationType, path, dateCreated)
+        private FullBackup(VirtualMachine vm, LocationType locationType, string path, DateTime dateCreated): base(vm, locationType, path, dateCreated)
         {
             _virtualDiskBackupLocations = new Dictionary<string, string>();
         }
 
-        public static FullBackup CreateNew(LocationType locationType, string path)
+        public static FullBackup CreateNew(VirtualMachine vm, LocationType locationType, string path)
         {
-            return new FullBackup(locationType, path, DateTime.UtcNow);
+            FullBackup fullBackup = new FullBackup(vm, locationType, path, DateTime.UtcNow);
+            return fullBackup;
         }
 
 

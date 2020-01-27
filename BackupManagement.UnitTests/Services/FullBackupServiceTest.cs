@@ -17,6 +17,7 @@ namespace BackupManagement.Test.UnitTests.Services
         [Fact]
         public async Task DataNotCorrupt()
         {
+            throw new NotImplementedException();
             // Setup
             List<string> vhdPaths = new List<string> { "mypath/disk1.vhd" };
             Guid vmId = Guid.NewGuid();
@@ -27,7 +28,7 @@ namespace BackupManagement.Test.UnitTests.Services
 
             // Run
             FullBackupService backupService = new FullBackupService();
-            FullBackup backup = await backupService.BackupAsync(vm, resolver, LocationType.CIFS, backupLocation);
+            FullBackup backup = await backupService.BackupAsync(backup, resolver);
 
             // Test
             IBackupLocationFactory factory = resolver.Resolve(LocationType.CIFS);

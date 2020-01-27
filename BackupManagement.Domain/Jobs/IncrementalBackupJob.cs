@@ -27,7 +27,7 @@ namespace BackupManagement.Domain
         {
             foreach(VirtualMachine vm in VirtualMachines)
             {
-                IncrementalBackup backup = vm.CreateIncrementalBackup(TargetLocationType, TargetLocation);
+                IncrementalBackup backup = vm.CreateIncrementalBackup(vm, TargetLocationType, TargetLocation);
                 Backups.Add(backup);
             }
         }

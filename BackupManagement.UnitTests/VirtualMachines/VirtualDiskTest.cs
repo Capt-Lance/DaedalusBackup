@@ -1,4 +1,5 @@
 ﻿using BackupManagement.Domain;
+using BackupManagement.Domain.VirtualMachines;
 using Xunit;
 
 namespace BackupManagement.UnitTest.VirtualMachines

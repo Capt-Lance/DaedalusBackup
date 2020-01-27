@@ -1,4 +1,5 @@
 ﻿using BackupManagement.Domain;
+using BackupManagement.Domain.VirtualMachines;
 using BackupManagement.Infrastructure.HyperV.Repositories;
 using System.Collections.Generic;
 using System.IO;

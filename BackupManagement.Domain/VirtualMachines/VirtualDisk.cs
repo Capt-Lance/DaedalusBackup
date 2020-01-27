@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BackupManagement.Domain
+namespace BackupManagement.Domain.VirtualMachines
 {
-    public class VirtualDisk : Entity
+    public class VirtualDisk
     {
         /// <summary>
         /// Name of the VirtualDisk w/o extension

@@ -1,5 +1,6 @@
 ﻿using BackupManagement.Domain;
 using BackupManagement.Domain.Backups.IncrementalBackups;
+using BackupManagement.Domain.VirtualMachines;
 using System;
 using System.Collections.Generic;
 using System.IO;

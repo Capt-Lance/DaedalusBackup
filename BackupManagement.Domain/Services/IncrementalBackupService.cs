@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BackupManagement.Domain.Services
 {
-    public class IncrementalBackupService
+    public class IncrementalBackupService : IBackupService<IncrementalBackup>
     {
         public static async Task<IncrementalBackup> BackupAsync(
         VirtualMachine vm,
@@ -30,6 +30,11 @@ namespace BackupManagement.Domain.Services
             //await targetFactory.SaveIncrementCollectionAsync(backup.IncrementCollection, targetLocation);
             //return backup;
 
+        }
+
+        public Task<IncrementalBackup> BackupAsync(IncrementalBackup backup, IBackupLocationFactoryResolver locationFactoryResolver)
+        {
+            throw new NotImplementedException();
         }
     }
 }
