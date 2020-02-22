@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Capt-Lance/DaedalusBackup.svg?branch=master)](https://travis-ci.org/Capt-Lance/DaedalusBackup)
 # DaedalusBackup
 DaedalusBackup is a cross-platform virtual machine backup solution for all the main hypervisors. DaedalusBackup is designed from the start to be customizable and easy to integrate into custom solutions as well. Can backup an entire virtual machine, or go incrementally with built-in deduping.
 
