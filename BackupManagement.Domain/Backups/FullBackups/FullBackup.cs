@@ -1,4 +1,5 @@
 ﻿using BackupManagement.Domain.Backups.FullBackups;
+using BackupManagement.Domain.VirtualMachines;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,29 +29,37 @@ namespace BackupManagement.Domain.FullBackups
             return fullBackup;
         }
 
+        public async Task Run(IBackupLocationFactoryResolver locationFactoryResolver)
+        {
+            foreach(VirtualDisk vd in VirtualMachine.VirtualDisks)
+            {
+                await BackupVirtualDisk(vd, locationFactoryResolver);
+            }
+        }
 
-        //private  async Task BackupVirtualDisk(VirtualDisk vd, IBackupLocationFactoryResolver locationFactoryResolver, LocationType sourceLocationType, LocationType targetLocationType, string basePath)
-        //{
-        //    IBackupLocationFactory targetFactory = locationFactoryResolver.Resolve(targetLocationType);
-        //    IBackupLocationFactory sourceFactory = locationFactoryResolver.Resolve(sourceLocationType);
-        //    string backupLocation = $"{basePath}/{vd.FileName}";
-        //    Stream targetStream = targetFactory.Open(backupLocation);
-        //    Stream sourceStream = sourceFactory.Open(vd);
-        //    byte[] buffer = new byte[512];
-        //    while (sourceStream.Position < sourceStream.Length)
-        //    {
-        //        long remainingBytes = sourceStream.Length - sourceStream.Position;
-        //        if (remainingBytes < buffer.Length)
-        //        {
-        //            buffer = new byte[remainingBytes];
-        //        }
-        //        await sourceStream.ReadAsync(buffer);
-        //        await targetStream.WriteAsync(buffer);
-        //    }
-        //    targetStream.Close();
-        //    sourceStream.Close();
-        //    VirtualDiskBackupLocations.Add(vd.FileName, backupLocation);
-        //}
+        private async Task BackupVirtualDisk(VirtualDisk vd, IBackupLocationFactoryResolver locationFactoryResolver)
+        {
+            IBackupLocationFactory targetFactory = locationFactoryResolver.Resolve(LocationType);
+            IBackupLocationFactory sourceFactory = locationFactoryResolver.Resolve(VirtualMachine.SourceLocationType);
+            string backupLocation = $"{Path}/{vd.FileName}";
+            Stream targetStream = targetFactory.Open(backupLocation);
+            Stream sourceStream = sourceFactory.Open(vd);
+            byte[] buffer = new byte[512];
+            while (sourceStream.Position < sourceStream.Length)
+            {
+                long remainingBytes = sourceStream.Length - sourceStream.Position;
+                if (remainingBytes < buffer.Length)
+                {
+                    buffer = new byte[remainingBytes];
+                }
+                await sourceStream.ReadAsync(buffer);
+                await targetStream.WriteAsync(buffer);
+            }
+            targetStream.Close();
+            sourceStream.Close();
+            _virtualDiskBackupLocations.Add(vd.FileName, backupLocation);
+        }
+
         //public static async Task<FullBackup> BackupAsync(VirtualMachine vm, IBackupLocationFactoryResolver locationFactoryResolver, LocationType targetLocationType, string backupLocation)
         //{
         //    FullBackup backup = new FullBackup(DateTime.UtcNow, backupLocation);

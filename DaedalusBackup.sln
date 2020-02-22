@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		.travis.yml = .travis.yml
 		Jenkinsfile = Jenkinsfile
 		LICENSE = LICENSE
 		README.md = README.md
@@ -26,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaedalusBackup.API", "DaedalusBackup.API\DaedalusBackup.API.csproj", "{5070C5F3-068C-4897-B075-D7B88FE55869}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupManagement.Application", "BackupManagement.Application\BackupManagement.Application.csproj", "{35BCDABA-4CDD-4369-BE63-6EF1571A649E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackupManagement.Application", "BackupManagement.Application\BackupManagement.Application.csproj", "{35BCDABA-4CDD-4369-BE63-6EF1571A649E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
