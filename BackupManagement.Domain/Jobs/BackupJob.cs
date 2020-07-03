@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BackupManagement.Domain
 {
-    public abstract class BackupJob<T>: AggregateRoot, IJob where T: Backup
+    public abstract class BackupJob<T>: AggregateRoot where T: Backup
     {
         public int Id { get; private set; }
         public List<T> Backups { get; protected set; }
@@ -30,12 +30,5 @@ namespace BackupManagement.Domain
             TargetLocation = targetLocation;
             VirtualMachines = vms ?? new List<VirtualMachine>();
         }
-
-        // TODO:
-        // Might not make this abstract as each job type might need it's own signature.
-        // Need to think about this more
-        //public abstract BackupJob CreateNew()
-        public abstract void Run();
-
     }
 }
