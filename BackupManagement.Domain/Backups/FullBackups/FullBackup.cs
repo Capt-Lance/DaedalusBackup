@@ -1,4 +1,5 @@
-﻿using BackupManagement.Domain.Backups.FullBackups;
+﻿using BackupManagement.Domain.Backups;
+using BackupManagement.Domain.Backups.FullBackups;
 using BackupManagement.Domain.VirtualMachines;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,11 @@ namespace BackupManagement.Domain.FullBackups
             _virtualDiskBackupLocations = new Dictionary<string, string>();
         }
 
-        public static FullBackup CreateNew(VirtualMachine vm, LocationType locationType, string path)
+        public static FullBackup CreateNew(BackupConfiguration backupConfiguration)
         {
+            var vm = backupConfiguration.VirtualMachine;
+            var locationType = backupConfiguration.TargetLocationType;
+            var path = backupConfiguration.BackupLocation;
             FullBackup fullBackup = new FullBackup(vm, locationType, path, DateTime.UtcNow);
             return fullBackup;
         }

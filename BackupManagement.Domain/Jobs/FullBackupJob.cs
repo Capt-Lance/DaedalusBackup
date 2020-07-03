@@ -28,21 +28,21 @@ namespace BackupManagement.Domain
             FullBackupJob job = new FullBackupJob(DateTime.UtcNow, DateTime.UtcNow, backupType, path, vms);
             return job;
         }
+        //public override void Run()
+        //{
+        //    List<FullBackup> backups = new List<FullBackup>(VirtualMachines.Count);
+        //    int i = 0;
+        //    string subdirectory = $"{TargetLocation}/{DateHelper.FileUTCNow()}";
+        //    foreach(VirtualMachine vm in VirtualMachines)
+        //    {
+        //        FullBackup backup = FullBackup.CreateNew(vm, TargetLocationType, subdirectory);
+        //        backups[i] = backup;
+        //        AddDomainEvent(new FullBackupCreatedEvent(backup));
 
-        public override void Run()
-        {
-            List<FullBackup> backups = new List<FullBackup>(VirtualMachines.Count);
-            int i = 0;
-            string subdirectory = $"{TargetLocation}/{DateHelper.FileUTCNow()}";
-            foreach(VirtualMachine vm in VirtualMachines)
-            {
-                FullBackup backup = FullBackup.CreateNew(vm, TargetLocationType, subdirectory);
-                backups[i] = backup;
-                AddDomainEvent(new FullBackupCreatedEvent(backup));
+        //        i++;
+        //    }
+        //    Backups.AddRange(backups);
+        //}
 
-                i++;
-            }
-            Backups.AddRange(backups);
-        }
     }
 }

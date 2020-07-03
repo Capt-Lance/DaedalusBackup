@@ -1,4 +1,5 @@
-﻿using BackupManagement.Domain.FullBackups;
+﻿using BackupManagement.Domain.Backups;
+using BackupManagement.Domain.FullBackups;
 using BackupManagement.Domain.VirtualMachines;
 using System.IO;
 using System.Threading.Tasks;
@@ -7,10 +8,10 @@ namespace BackupManagement.Domain.Services
 {
     public class FullBackupService : IBackupService<FullBackup>
     {
-        public async Task<FullBackup> BackupAsync(FullBackup backup, IBackupLocationFactoryResolver locationFactoryResolver)
+        public async Task<FullBackup> BackupAsync(BackupConfiguration backupConfiguration, IBackupLocationFactoryResolver locationFactoryResolver)
         {
-            var vm = backup.VirtualMachine;
-            //FullBackup backup = FullBackup.CreateNew(targetLocationType, backupLocation);
+            var vm = backupConfiguration.VirtualMachine;
+            FullBackup backup = FullBackup.CreateNew(backupConfiguration);
             Task[] backupTasks = new Task[vm.VirtualDisks.Count];
             for (int i = 0; i < vm.VirtualDisks.Count; i++)
             {

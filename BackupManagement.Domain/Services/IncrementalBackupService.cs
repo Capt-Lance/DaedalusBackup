@@ -1,4 +1,5 @@
-﻿using BackupManagement.Domain.Backups.IncrementalBackups;
+﻿using BackupManagement.Domain.Backups;
+using BackupManagement.Domain.Backups.IncrementalBackups;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -32,7 +33,7 @@ namespace BackupManagement.Domain.Services
 
         }
 
-        public Task<IncrementalBackup> BackupAsync(IncrementalBackup backup, IBackupLocationFactoryResolver locationFactoryResolver)
+        public Task<IncrementalBackup> BackupAsync(BackupConfiguration backupConfiguration, IBackupLocationFactoryResolver locationFactoryResolver)
         {
             throw new NotImplementedException();
         }
