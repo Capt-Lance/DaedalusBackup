@@ -9,6 +9,12 @@ namespace BackupManagement.Domain.Services
 {
     public class IncrementalBackupService : IBackupService<IncrementalBackup>
     {
+        private IBackupLocationFactoryResolver locationFactoryResolver;
+        public IncrementalBackupService(IBackupLocationFactoryResolver locationFactoryResolver)
+        {
+            this.locationFactoryResolver = locationFactoryResolver;
+        }
+
         public static async Task<IncrementalBackup> BackupAsync(
         VirtualMachine vm,
         //IBackupLocationFactoryResolver locationFactoryResolver, 
@@ -33,7 +39,7 @@ namespace BackupManagement.Domain.Services
 
         }
 
-        public Task<IncrementalBackup> BackupAsync(BackupConfiguration backupConfiguration, IBackupLocationFactoryResolver locationFactoryResolver)
+        public Task<IncrementalBackup> BackupAsync(VirtualMachine vm, BackupConfiguration backupConfiguration)
         {
             throw new NotImplementedException();
         }

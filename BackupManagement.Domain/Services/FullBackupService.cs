@@ -8,21 +8,25 @@ namespace BackupManagement.Domain.Services
 {
     public class FullBackupService : IBackupService<FullBackup>
     {
-        public async Task<FullBackup> BackupAsync(BackupConfiguration backupConfiguration, IBackupLocationFactoryResolver locationFactoryResolver)
+        private IBackupLocationFactoryResolver locationFactoryResolver;
+        public FullBackupService(IBackupLocationFactoryResolver locationFactoryResolver)
         {
-            var vm = backupConfiguration.VirtualMachine;
-            FullBackup backup = FullBackup.CreateNew(backupConfiguration);
+            this.locationFactoryResolver = locationFactoryResolver;
+        }
+        public async Task<FullBackup> BackupAsync(VirtualMachine vm, BackupConfiguration backupConfiguration)
+        {
+            FullBackup backup = FullBackup.CreateNew(vm, backupConfiguration);
             Task[] backupTasks = new Task[vm.VirtualDisks.Count];
             for (int i = 0; i < vm.VirtualDisks.Count; i++)
             {
                 VirtualDisk vd = vm.VirtualDisks[i];
-                backupTasks[i] = BackupVirtualDisk(backup, vd, locationFactoryResolver, vm.SourceLocationType);
+                backupTasks[i] = BackupVirtualDisk(backup, vd, vm.SourceLocationType);
             }
             await Task.WhenAll(backupTasks);
             return backup;
         }
 
-        private async Task BackupVirtualDisk(FullBackup backup, VirtualDisk vd, IBackupLocationFactoryResolver locationFactoryResolver, LocationType sourceLocationType)
+        private async Task BackupVirtualDisk(FullBackup backup, VirtualDisk vd, LocationType sourceLocationType)
         {
             IBackupLocationFactory targetFactory = locationFactoryResolver.Resolve(backup.LocationType);
             IBackupLocationFactory sourceFactory = locationFactoryResolver.Resolve(sourceLocationType);

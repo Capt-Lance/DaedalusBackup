@@ -5,6 +5,6 @@ namespace BackupManagement.Domain.Services
 {
     public interface IBackupService<T> where T : Backup
     {
-        public Task<T> BackupAsync(BackupConfiguration backupConfiguration, IBackupLocationFactoryResolver locationFactoryResolver);
+        public Task<T> BackupAsync(VirtualMachine vm, BackupConfiguration backupConfiguration);
     }
 }

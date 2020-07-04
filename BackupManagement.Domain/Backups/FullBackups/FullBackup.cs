@@ -24,9 +24,8 @@ namespace BackupManagement.Domain.FullBackups
             _virtualDiskBackupLocations = new Dictionary<string, string>();
         }
 
-        public static FullBackup CreateNew(BackupConfiguration backupConfiguration)
+        public static FullBackup CreateNew(VirtualMachine vm, BackupConfiguration backupConfiguration)
         {
-            var vm = backupConfiguration.VirtualMachine;
             var locationType = backupConfiguration.TargetLocationType;
             var path = backupConfiguration.BackupLocation;
             FullBackup fullBackup = new FullBackup(vm, locationType, path, DateTime.UtcNow);

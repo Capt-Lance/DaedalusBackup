@@ -23,13 +23,13 @@ namespace BackupManagement.Domain
             IncrementalBackupJob job = new IncrementalBackupJob(DateTime.UtcNow, DateTime.UtcNow, backupType, path, vms);
             return job;
         }
-        public override void Run()
-        {
-            foreach(VirtualMachine vm in VirtualMachines)
-            {
-                IncrementalBackup backup = vm.CreateIncrementalBackup(vm, TargetLocationType, TargetLocation);
-                Backups.Add(backup);
-            }
-        }
+        //public override void Run()
+        //{
+        //    foreach(VirtualMachine vm in VirtualMachines)
+        //    {
+        //        IncrementalBackup backup = vm.CreateIncrementalBackup(vm, TargetLocationType, TargetLocation);
+        //        Backups.Add(backup);
+        //    }
+        //}
     }
 }

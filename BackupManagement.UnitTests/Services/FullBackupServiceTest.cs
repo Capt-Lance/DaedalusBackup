@@ -1,4 +1,5 @@
 ﻿using BackupManagement.Domain;
+using BackupManagement.Domain.Backups;
 using BackupManagement.Domain.FullBackups;
 using BackupManagement.Domain.Services;
 using BackupManagement.UnitTests.Shared.Repositories;
@@ -25,10 +26,11 @@ namespace BackupManagement.Test.UnitTests.Services
             VirtualMachine vm = VirtualMachine.FromExisting(vmId, testVmName, vhdPaths);
             IBackupLocationFactoryResolver resolver = new MemoryBackupLocationFactoryResolver();
             string backupLocation = "newBackupLocation";
-
+            LocationType backupLocationType = LocationType.CIFS;
             // Run
-            FullBackupService backupService = new FullBackupService();
-            FullBackup backup = await backupService.BackupAsync(backup, resolver);
+            FullBackupService backupService = new FullBackupService(resolver);
+            BackupConfiguration backupConfig = new BackupConfiguration() { BackupLocation = backupLocation, TargetLocationType = backupLocationType };
+            FullBackup backup = await backupService.BackupAsync(vm, backupConfig);
 
             // Test
             IBackupLocationFactory factory = resolver.Resolve(LocationType.CIFS);

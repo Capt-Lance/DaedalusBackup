@@ -26,7 +26,7 @@ namespace DaedalusBackup.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers();
             services.AddTransient<HyperVVirtualMachineRepository>();
             services.AddCors(o => o.AddPolicy("AllowAllCORs", builder =>
             {
@@ -47,9 +47,13 @@ namespace DaedalusBackup.API
                 app.UseHsts();
             }
 
+            app.UseRouting();
             app.UseCors("AllowAllCORs");
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

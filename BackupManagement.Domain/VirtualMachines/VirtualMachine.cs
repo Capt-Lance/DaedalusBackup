@@ -50,35 +50,35 @@ namespace BackupManagement.Domain
         /// <param name="targetLocationType"></param>
         /// <param name="backupLocation"></param>
         /// <returns></returns>
-        public FullBackup CreateFullBackup(
-            VirtualMachine vm,
-            LocationType targetLocationType,
-            string backupLocation
-            )
-        {
-            FullBackup backup = FullBackup.CreateNew(vm, targetLocationType, GetBaseDirectory(backupLocation));
-            var backupCreatedEvent = new VirtualMachineFullBackupCreated(this, backup);
-            AddDomainEvent(backupCreatedEvent);
-            return backup;
-        }
+        //public FullBackup CreateFullBackup(
+        //    VirtualMachine vm,
+        //    LocationType targetLocationType,
+        //    string backupLocation
+        //    )
+        //{
+        //    FullBackup backup = FullBackup.CreateNew(vm, targetLocationType, GetBaseDirectory(backupLocation));
+        //    var backupCreatedEvent = new VirtualMachineFullBackupCreated(this, backup);
+        //    AddDomainEvent(backupCreatedEvent);
+        //    return backup;
+        //}
 
-        /// <summary>
-        /// Creates an instance of IncrementalBackup with the VirtualMachineIncrementalBackupCreated domain event added
-        /// </summary>
-        /// <returns></returns>
-        public IncrementalBackup CreateIncrementalBackup(
-            VirtualMachine vm,
-            LocationType targetLocationType,
-            string targetLocation
-            )
-        {
-            string baseDirectory = $"{targetLocation}/{Name}";
-            //todo: Don't hardcode size
-            IncrementalBackup backup = IncrementalBackup.CreateNew(vm, targetLocationType, baseDirectory, 512);
-            var backupCreatedEvent = new VirtualMachineIncrementalBackupCreated(this, backup);
-            AddDomainEvent(backupCreatedEvent);
-            return backup;
-        }
+        ///// <summary>
+        ///// Creates an instance of IncrementalBackup with the VirtualMachineIncrementalBackupCreated domain event added
+        ///// </summary>
+        ///// <returns></returns>
+        //public IncrementalBackup CreateIncrementalBackup(
+        //    VirtualMachine vm,
+        //    LocationType targetLocationType,
+        //    string targetLocation
+        //    )
+        //{
+        //    string baseDirectory = $"{targetLocation}/{Name}";
+        //    //todo: Don't hardcode size
+        //    IncrementalBackup backup = IncrementalBackup.CreateNew(vm, targetLocationType, baseDirectory, 512);
+        //    var backupCreatedEvent = new VirtualMachineIncrementalBackupCreated(this, backup);
+        //    AddDomainEvent(backupCreatedEvent);
+        //    return backup;
+        //}
 
     }
 }
