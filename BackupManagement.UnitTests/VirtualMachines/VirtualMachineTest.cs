@@ -30,7 +30,7 @@ namespace BackupManagement.UnitTest.VirtualMachines
             //FullBackup backup = await FullBackup.CreateNewAsync(vm, resolver, BackupLocationType.CIFS, backupLocation);
 
             // Test
-            string expectedPath = $"{backupLocation}/{vm.Name}";
+            string expectedPath = $"{backupLocation}";
             Assert.True(backup.Path == expectedPath, "Backup.Path does not equal the expected path");
         }
 

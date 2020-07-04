@@ -18,7 +18,7 @@ namespace BackupManagement.Test.UnitTests.Services
         [Fact]
         public async Task DataNotCorrupt()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
             // Setup
             List<string> vhdPaths = new List<string> { "mypath/disk1.vhd" };
             Guid vmId = Guid.NewGuid();
